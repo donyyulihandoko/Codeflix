@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Plan extends Model
 {
@@ -12,7 +13,6 @@ class Plan extends Model
     protected $table = 'plans';
     protected $fillable = [
         'title',
-        'description',
         'price',
         'duration',
         'resolution',
@@ -22,4 +22,9 @@ class Plan extends Model
     protected $casts = [
         'price' => 'decimal:2',
     ];
+
+    public function memberships() :HasMany
+    {
+        return $this->hasMany(Membership::class);
+    }
 }
