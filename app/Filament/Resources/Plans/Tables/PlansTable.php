@@ -27,7 +27,6 @@ class PlansTable
             TextColumn::make('price')
                 ->label('Price')
                 ->money('IDR', locale: 'id')
-                ->sortable()
                 ->alignEnd()
                 ->color('success'),
 
@@ -35,7 +34,6 @@ class PlansTable
             TextColumn::make('duration')
                 ->label('Duration')
                 ->suffix(' Days')
-                ->sortable()
                 ->alignCenter(),
 
             // Resolution Column with badge and color coding
@@ -56,7 +54,6 @@ class PlansTable
                 ->label('Max Devices')
                 ->icon('heroicon-m-device-phone-mobile')
                 ->iconColor('gray')
-                ->sortable()
                 ->alignCenter(),
             ])
             ->filters([

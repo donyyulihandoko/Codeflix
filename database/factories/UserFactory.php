@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
+
 
 /**
  * @extends Factory<User>
@@ -40,6 +42,33 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function is_admin(): static
+    {
+        $adminRole = Role::create(['name' => 'admin']);
+
+        return $this->state(fn(array $attributes) => [
+            'email' => 'admin@example.com'
+        ])->afterCreating(function (User $user) use ($adminRole) {
+            $user->assignRole($adminRole);
+        });
+    }
+
+    public function is_member1(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'email' => fake()->email()
+        ])->afterCreating(function (User $user) {
+            $user->assignRole('member');
+        });
+    }
+
+    public function is_member(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'email' => fake()->email()
         ]);
     }
 }

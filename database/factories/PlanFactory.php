@@ -18,7 +18,11 @@ class PlanFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => fake()->word(),
+            'price' => fake()->randomFloat(2, 0, 100),
+            'duration' => 30,
+            'resolution' => fake()->randomElement(['720p', '1080p', '4k']),
+            'max_devices' => fake()->numberBetween(1, 5),
         ];
     }
 }
