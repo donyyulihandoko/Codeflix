@@ -47,7 +47,7 @@ class UserFactory extends Factory
 
     public function is_admin(): static
     {
-        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
 
         return $this->state(fn(array $attributes) => [
             'email' => 'admin@example.com'
