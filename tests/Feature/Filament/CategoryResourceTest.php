@@ -171,20 +171,20 @@ class CategoryResourceTest extends TestCase
     public function test_can_update_data_category()
     {
         $category = Category::factory()->create();
-        $newPlanData = Category::factory()->make();
+        $newCategoryData = Category::factory()->make();
         Livewire::test(EditCategory::class, ['record' => $category->getKey()])
             ->assertOk()
             ->fillForm([
-                    'title' => $newPlanData->title,
-                    'slug' => $newPlanData->slug,
+                    'title' => $newCategoryData->title,
+                    'slug' => $newCategoryData->slug,
             ])
             ->call('save')
             ->assertNotified()
             ->assertHasNoFormErrors();
 
         $this->assertDatabaseHas('categories', [
-            'title' => $newPlanData->title,
-            'slug' => $newPlanData->slug
+            'title' => $newCategoryData->title,
+            'slug' => $newCategoryData->slug
         ]);
     }
 

@@ -17,9 +17,9 @@ class CategoryForm
                 Section::make('Category Details')
                     ->description('Enter the details of the category')
                     ->icon('heroicon-o-tag')
-                    ->columns(1)
+                    ->columns(2)
                     // ->aside()
-                    // ->columnSpanFull()
+                    ->columnSpan(2)
                     ->schema([
                         TextInput::make('title')
                             ->label('Category Name')
@@ -35,6 +35,6 @@ class CategoryForm
                             ->disabled()
                     ]),
 
-            ]);
+                ]);
     }
 }

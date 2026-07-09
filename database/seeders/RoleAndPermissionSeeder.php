@@ -18,16 +18,16 @@ class RoleAndPermissionSeeder extends Seeder
         $adminRole = Role::create(['name' => 'admin']);
         $memberRole = Role::create(['name' => 'member']);
 
-        // User::factory()->create([
-        //     'name' => 'Admin User',
-        //     'email' => 'admin@gmail.com',
-        //     'password' => bcrypt('password'),
-        // ])->assignRole($adminRole);
+        User::factory()->create([
+            'name' => 'Admin User',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('password'),
+        ])->assignRole($adminRole);
 
-        // User::factory()->create([
-        //     'name' => 'Member User',
-        //     'email' => 'member@gmail.com',
-        //     'password' => bcrypt('password'),
-        // ])->assignRole($memberRole);
+        User::factory()->create([
+            'name' => 'Member User',
+            'email' => 'member@gmail.com',
+            'password' => bcrypt('password'),
+        ])->assignRole($memberRole);
     }
 }
