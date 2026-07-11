@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Categories\Schemas;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 
 class CategoryInfolist
 {
@@ -22,29 +21,14 @@ class CategoryInfolist
                     'lg' => 2,
                 ])
                     ->schema([
-                        TextEntry::make('title')
-                            ->icon(Heroicon::Tag)
-                            ->weight('bold')
-                            ->color('primary')
-                            ->label('Category Name'),
-
+                        TextEntry::make('title'),
                         TextEntry::make('slug')
-                            ->icon(Heroicon::Bookmark)
-                            ->weight('bold')
-                            ->color('danger'),
-
+                            ->placeholder('-'),
                         TextEntry::make('created_at')
                             ->dateTime()
-                            ->icon(Heroicon::Clock)
-                            ->weight('bold')
-                            ->color('success')
                             ->placeholder('-'),
-
                         TextEntry::make('updated_at')
                             ->dateTime()
-                            ->icon(Heroicon::Clock)
-                            ->weight('bold')
-                            ->color('success')
                             ->placeholder('-'),
                             ])
             ]);

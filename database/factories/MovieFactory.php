@@ -23,9 +23,9 @@ class MovieFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title),
             'description' => $this->faker->paragraph(),
-            'director' => $this->faker->name(),
-            'writers' => $this->faker->name(),
-            'stars' => $this->faker->name(),
+                // 'director' => $this->faker->name(),
+                // 'writers' => $this->faker->name(),
+                // 'stars' => $this->faker->name(),
             'poster' => 'movies/dummy-poster.jpg',
             'release_date' => $this->faker->dateTimeThisDecade(), // Menghasilkan objek datetime yang valid
             'duration' => $this->faker->numberBetween(90, 180),

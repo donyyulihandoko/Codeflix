@@ -25,9 +25,15 @@ class MovieInfolist
                                 TextEntry::make('categories.title')
                                     ->label('Categories')
                                     ->placeholder('-'),
-                                TextEntry::make('director'),
-                                TextEntry::make('writers'),
-                                TextEntry::make('stars'),
+                                TextEntry::make('directors.name')
+                                    ->label('Directors')
+                                    ->placeholder('-'),
+                                TextEntry::make('writers.name')
+                                    ->label('writers')
+                                    ->placeholder('-'),
+                                TextEntry::make('stars.name')
+                                    ->label('Stars')
+                                    ->placeholder('-'),
                                 TextEntry::make('duration')
                                     ->numeric(),
                                 TextEntry::make('description')

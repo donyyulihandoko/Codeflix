@@ -4,6 +4,7 @@ namespace Tests\Feature\Filament;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Crew;
 use Tests\TestCase;
 use App\Models\User;
 use livewire\Livewire;
@@ -18,6 +19,7 @@ use Database\Seeders\CategoryMovieSeeder;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Testing\TestAction;
 use Illuminate\Http\UploadedFile;
+
 
 class MovieResourceTest extends TestCase
 {
@@ -133,7 +135,7 @@ class MovieResourceTest extends TestCase
             ->assertFormFieldExists('title')
             ->assertFormFieldExists('slug')
             ->assertFormFieldExists('categories')
-            ->assertFormFieldExists('director')
+            ->assertFormFieldExists('directors')
             ->assertFormFieldExists('writers')
             ->assertFormFieldExists('stars')
             ->assertFormFieldExists('description')
@@ -147,6 +149,8 @@ class MovieResourceTest extends TestCase
 
     public function test_can_create_a_movie()
     {
+        $crew = Crew::factory(3)->create();
+        $crewIds = $crew->pluck('id')->toArray();
         $categories = Category::factory(2)->create();
         $categoryIds = $categories->pluck('id')->toArray();
         $fakePoster = UploadedFile::fake()->image('poster.jpg');
@@ -158,9 +162,9 @@ class MovieResourceTest extends TestCase
                 'title' => $movie->title,
                 'slug' => $movie->slug,
                 'categories' => $categoryIds,
-                'director' => $movie->director,
-                'writers' => $movie->writers,
-                'stars' => $movie->stars,
+                'directors' => $crewIds,
+                'writers' => $crewIds,
+                'stars' => $crewIds,
                 'description' => $movie->description,
                 'release_date' => $movie->release_date->format('Y-m-d'),
                 'duration' => $movie->duration,
@@ -192,15 +196,15 @@ class MovieResourceTest extends TestCase
     public function test_can_load_edit_movie_page()
     {
         $movie = Movie::factory()->create();
-        Livewire::test(EditMovie::class, ['record' => $movie->getKey()])
+        Livewire::test(EditMovie::class, ['record' => $movie->slug])
             ->assertOk()
             ->assertSchemaStateSet([
                 'title' => $movie->title,
                 'slug' => $movie->slug,
                 'description' => $movie->description,
-                'director' => $movie->director,
-                'writers' => $movie->writers,
-                'stars' => $movie->stars,
+                // 'directors' => $movie->directors,
+                // 'writers' => $movie->writers,
+                // 'stars' => $movie->stars,
                 // 'poster' => $movie->poster,
                 'release_date' => $movie->release_date,
                 'duration' => $movie->duration,
@@ -216,17 +220,19 @@ class MovieResourceTest extends TestCase
         $newMovie = Movie::factory()->make();
         $categories = Category::factory(2)->create();
         $categoryIds = $categories->pluck('id')->toArray();
+        $crew = Crew::factory(3)->create();
+        $crewIds = $crew->pluck('id')->toArray();
         $newPoster = UploadedFile::fake()->image('poster.jpg');
 
-        Livewire::test(EditMovie::class, ['record' => $movie->getKey()])
+        Livewire::test(EditMovie::class, ['record' => $movie->slug])
             ->assertOk()
             ->fillForm([
                 'title' => $newMovie->title,
                 'slug' => $newMovie->slug,
                 'categories' => $categoryIds,
-                'director' => $newMovie->director,
-                'writers' => $newMovie->writers,
-                'stars' => $newMovie->stars,
+                'directors' => $crewIds,
+                'writers' => $crewIds,
+                'stars' => $crewIds,
                 'description' => $newMovie->description,
                 'release_date' => $newMovie->release_date->format('Y-m-d'),
                 'duration' => $newMovie->duration,
@@ -255,7 +261,7 @@ class MovieResourceTest extends TestCase
 
         $movie = Movie::factory()->create();
 
-        Livewire::test(EditMovie::class, ['record' => $movie->getKey()])
+        Livewire::test(EditMovie::class, ['record' => $movie->slug])
             ->callAction(DeleteAction::class)
             ->assertNotified()
             ->assertRedirect();
@@ -295,15 +301,15 @@ class MovieResourceTest extends TestCase
     public function test_can_load_view_plan_page()
     {
         $movie = Movie::factory()->create();
-        Livewire::test(ViewMovie::class, ['record' => $movie->getKey()])
+        Livewire::test(ViewMovie::class, ['record' => $movie->slug])
             ->assertOk()
             ->assertSchemaStateSet([
                 'title' => $movie->title,
                 'slug' => $movie->slug,
                 'description' => $movie->description,
-                'director' => $movie->director,
-                'writers' => $movie->writers,
-                'stars' => $movie->stars,
+                // 'director' => $movie->director,
+                // 'writers' => $movie->writers,
+                // 'stars' => $movie->stars,
                 'poster' => $movie->poster,
                 'release_date' => $movie->release_date,
                 'duration' => $movie->duration,

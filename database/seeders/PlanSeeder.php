@@ -15,6 +15,7 @@ class PlanSeeder extends Seeder
         $plans = [
             [
                 'title' => 'Basic',
+                'slug' => 'basic',
                 'price' => 49999,
                 'resolution' => '720p',
                 'max_devices' => 1,
@@ -25,6 +26,7 @@ class PlanSeeder extends Seeder
             [
                 'title' => 'Standard',
                 'price' => 89999,
+                'slug' => 'standard',
                 'resolution' => '1080p',
                 'max_devices' => 2,
                 'duration' => 30,
@@ -34,6 +36,7 @@ class PlanSeeder extends Seeder
             [
                 'title' => 'Premium',
                 'price' => 129999,
+                'slug' => 'premium',
                 'resolution' => '4k',
                 'max_devices' => 4,
                 'duration' => 30,

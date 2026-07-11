@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Plan;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Str;
 /**
  * @extends Factory<Plan>
  */
@@ -17,8 +17,10 @@ class PlanFactory extends Factory
      */
     public function definition(): array
     {
+        $title = $this->faker->word();
         return [
-            'title' => fake()->word(),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'price' => fake()->randomFloat(2, 0, 100),
             'duration' => 30,
             'resolution' => fake()->randomElement(['720p', '1080p', '4k']),

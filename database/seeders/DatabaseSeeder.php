@@ -18,10 +18,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleAndPermissionSeeder::class,
             UserSeeder::class,
-            planSeeder::class,
+            PlanSeeder::class,
             CategorySeeder::class,
+            CrewSeeder::class,
             MovieSeeder::class,
             CategoryMovieSeeder::class,
+            CrewMovieSeeder::class
         ]);
     }
 }

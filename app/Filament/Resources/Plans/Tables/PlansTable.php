@@ -19,9 +19,7 @@ class PlansTable
             TextColumn::make('title')
                 ->label('Plan Name')
                 ->searchable()
-                ->sortable()
-                ->weight('bold')
-                ->description(fn($record) => "ID Paket: #{$record->id}"),
+                ->sortable(),
 
             // Price Column with currency formatting
             TextColumn::make('price')
@@ -52,7 +50,6 @@ class PlansTable
             // Max Devices Column with icon
             TextColumn::make('max_devices')
                 ->label('Max Devices')
-                ->icon('heroicon-m-device-phone-mobile')
                 ->iconColor('gray')
                 ->alignCenter(),
             ])

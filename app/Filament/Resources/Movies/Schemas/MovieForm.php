@@ -41,11 +41,20 @@ class MovieForm
                                 ->multiple()
                                 ->preload()
                                 ->required(),
-                            TextInput::make('director')
+                            Select::make('directors')
+                                ->relationship('directors', 'name')
+                                ->multiple()
+                                ->preload()
                                 ->required(),
-                            TextInput::make('writers')
+                            Select::make('writers')
+                                ->relationship('writers', 'name')
+                                ->multiple()
+                                ->preload()
                                 ->required(),
-                            TextInput::make('stars')
+                            Select::make('stars')
+                                ->relationship('stars', 'name')
+                                ->multiple()
+                                ->preload()
                                 ->required(),
                             Textarea::make('description')
                                 ->required()
