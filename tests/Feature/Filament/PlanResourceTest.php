@@ -109,6 +109,7 @@ class PlanResourceTest extends TestCase
     {
         Livewire::test(CreatePlan::class)
             ->assertFormFieldExists('title')
+            ->assertFormFieldExists('slug')
             ->assertFormFieldExists('price')
             ->assertFormFieldExists('duration')
             ->assertFormFieldExists('resolution')
@@ -123,6 +124,7 @@ class PlanResourceTest extends TestCase
             ->assertOk()
             ->fillForm([
                 'title' => $plan->title,
+                'slug' => $plan->slug,
                 'price' => $plan->price,
                 'duration' => $plan->duration,
                 'resolution' => $plan->resolution,
@@ -167,7 +169,7 @@ class PlanResourceTest extends TestCase
     public function test_can_load_edit_plan_page()
     {
         $plan = Plan::factory()->create();
-        Livewire::test(EditPlan::class, ['record' => $plan->getKey()])
+        Livewire::test(EditPlan::class, ['record' => $plan->slug])
             ->assertOk()
             ->assertSchemaStateSet([
                 'title' => $plan->title,
@@ -182,10 +184,11 @@ class PlanResourceTest extends TestCase
     {
         $plan = Plan::factory()->create();
         $newPlanData = Plan::factory()->make();
-        Livewire::test(EditPlan::class, ['record' => $plan->getKey()])
+        Livewire::test(EditPlan::class, ['record' => $plan->slug])
             ->assertOk()
             ->fillForm([
                     'title' => $newPlanData->title,
+                    'slug' => $newPlanData->slug,
                     'price' => $newPlanData->price,
                     'duration' => $newPlanData->duration,
                     'resolution' => $newPlanData->resolution,
@@ -197,6 +200,7 @@ class PlanResourceTest extends TestCase
 
         $this->assertDatabaseHas('plans', [
             'title' => $newPlanData->title,
+            'slug' => $newPlanData->slug,
             'price' => $newPlanData->price,
             'duration' => $newPlanData->duration,
             'resolution' => $newPlanData->resolution,
@@ -208,7 +212,7 @@ class PlanResourceTest extends TestCase
     {
         $plan = Plan::factory()->create();
 
-        Livewire::test(EditPlan::class, ['record' => $plan->getKey()])
+        Livewire::test(EditPlan::class, ['record' => $plan->slug])
             ->assertOk()
             ->fillForm([
                 'title' => null,
@@ -220,6 +224,7 @@ class PlanResourceTest extends TestCase
             ->call('save')
             ->assertHasFormErrors([
                 'title' => 'required',
+                'slug' => 'required',
                 'price' => 'required',
                 'duration' => 'required',
                 'resolution' => 'required',
@@ -231,7 +236,7 @@ class PlanResourceTest extends TestCase
 
         $plan = Plan::factory()->create();
 
-        Livewire::test(EditPlan::class, ['record' => $plan->getKey()])
+        Livewire::test(EditPlan::class, ['record' => $plan->slug])
             ->callAction(DeleteAction::class)
             ->assertNotified()
             ->assertRedirect();
@@ -244,7 +249,7 @@ class PlanResourceTest extends TestCase
     public function test_can_load_view_plan_page()
     {
         $plan = Plan::factory()->create();
-        Livewire::test(ViewPlan::class, ['record' => $plan->getKey()])
+        Livewire::test(ViewPlan::class, ['record' => $plan->slug])
             ->assertOk()
             ->assertSchemaStateSet([
                 'title' => $plan->title,

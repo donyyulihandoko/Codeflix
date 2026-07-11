@@ -8,6 +8,8 @@ use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Support\Icons\Heroicon;
+use Filament\Schemas\Components\Utilities\Set;
+use Illuminate\Support\Str;
 
 class PlanForm
 {
@@ -19,7 +21,18 @@ class PlanForm
                     ->description('Enter the details of the subscription plan.')
                     ->icon(Heroicon::Film)
                     ->schema([
-                        TextInput::make('title')->label('Title')->required()->maxLength(100)->string(),
+                        TextInput::make('title')
+                            ->label('Title')
+                            ->required()
+                            ->maxLength(100)
+                            ->string()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                        TextInput::make('slug')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->dehydrated()
+                            ->disabled(),
                         TextInput::make('price')->label('Price (IDR)')->numeric()->required(),
                         TextInput::make('duration')->label('Duration (days)')->numeric()->required(),
                         Select::make('resolution')

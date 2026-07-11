@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
+            $table->string('slug', 100)->unique();
             $table->decimal('price', 10, 2);
             $table->integer('duration');
             $table->enum('resolution', ['720p', '1080p', '4k']);

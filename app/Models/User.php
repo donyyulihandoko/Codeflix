@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,6 +33,7 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    // Role & Permission
     public function isAdmin(): bool
     {
         return $this->hasRole('admin');
@@ -49,6 +49,7 @@ class User extends Authenticatable implements FilamentUser
         return $this->isAdmin() || $this->isMember();
     }
 
+    // Relationship
     public function memberships(): HasMany
     {
         return $this->hasMany(Membership::class);

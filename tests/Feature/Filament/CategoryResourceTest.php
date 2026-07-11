@@ -160,7 +160,7 @@ class CategoryResourceTest extends TestCase
     public function test_can_load_edit_category_page()
     {
         $category = Category::factory()->create();
-        Livewire::test(EditCategory::class, ['record' => $category->getKey()])
+        Livewire::test(EditCategory::class, ['record' => $category->slug])
             ->assertOk()
             ->assertSchemaStateSet([
                 'title' => $category->title,
@@ -172,7 +172,7 @@ class CategoryResourceTest extends TestCase
     {
         $category = Category::factory()->create();
         $newCategoryData = Category::factory()->make();
-        Livewire::test(EditCategory::class, ['record' => $category->getKey()])
+        Livewire::test(EditCategory::class, ['record' => $category->slug])
             ->assertOk()
             ->fillForm([
                     'title' => $newCategoryData->title,
@@ -192,7 +192,7 @@ class CategoryResourceTest extends TestCase
     {
         $category = Category::factory()->create();
 
-        Livewire::test(EditCategory::class, ['record' => $category->getKey()])
+        Livewire::test(EditCategory::class, ['record' => $category->slug])
             ->assertOk()
             ->fillForm([
                 'title' => null,
@@ -210,7 +210,7 @@ class CategoryResourceTest extends TestCase
 
         $category = Category::factory()->create();
 
-        Livewire::test(EditCategory::class, ['record' => $category->getKey()])
+        Livewire::test(EditCategory::class, ['record' => $category->slug])
             ->callAction(DeleteAction::class)
             ->assertNotified()
             ->assertRedirect();
@@ -220,10 +220,10 @@ class CategoryResourceTest extends TestCase
     }
 
     // Testing a resource view page
-    public function test_can_load_view_plan_page()
+    public function test_can_load_view_category_page()
     {
         $category = Category::factory()->create();
-        Livewire::test(ViewCategory::class, ['record' => $category->getKey()])
+        Livewire::test(ViewCategory::class, ['record' => $category->slug])
             ->assertOk()
             ->assertSchemaStateSet([
                 'title' => $category->title,
