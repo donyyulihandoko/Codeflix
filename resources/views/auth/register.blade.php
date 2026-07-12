@@ -1,52 +1,85 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <x-slot:title>Register - Codeflix</x-slot>
+    <x-slot:pageTitle>Create Account</x-slot>
+
+    <form action="{{ route('register') }}" method="POST" class="space-y-4">
         @csrf
 
-        <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label for="name" class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">Full
+                Name</label>
+            <input type="text" name="name" id="name" value="{{ old('name') }}" required autofocus
+                class="w-full px-4 py-3 rounded bg-zinc-900 border text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 transition duration-200
+                @error('name') border-red-600 focus:border-red-600 @else border-zinc-700 focus:border-gray-500 @enderror">
+            @error('name')
+                <p class="mt-1 text-xs text-red-500"><i class="fa-solid fa-circle-info mr-1"></i>{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div>
+            <label for="email"
+                class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">Email Address</label>
+            <input type="email" name="email" id="email" value="{{ old('email') }}" required
+                class="w-full px-4 py-3 rounded bg-zinc-900 border text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 transition duration-200
+                @error('email') border-red-600 focus:border-red-600 @else border-zinc-700 focus:border-gray-500 @enderror">
+            @error('email')
+                <p class="mt-1 text-xs text-red-500"><i class="fa-solid fa-circle-info mr-1"></i>{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div>
+            <label for="password"
+                class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">Password</label>
+            <div class="relative">
+                <input type="password" name="password" id="password" required
+                    class="w-full px-4 py-3 pr-10 rounded bg-zinc-900 border text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 transition duration-200
+                    @error('password') border-red-600 focus:border-red-600 @else border-zinc-700 focus:border-gray-500 @enderror">
+                <i
+                    class="fa-solid fa-eye-slash toggle-password absolute right-3 top-4 text-gray-400 hover:text-white cursor-pointer text-sm"></i>
+            </div>
+            @error('password')
+                <p class="mt-1 text-xs text-red-500"><i class="fa-solid fa-circle-info mr-1"></i>{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div>
+            <label for="password_confirmation"
+                class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">Confirm
+                Password</label>
+            <div class="relative">
+                <input type="password" name="password_confirmation" id="password_confirmation" required
+                    class="w-full px-4 py-3 pr-10 rounded bg-zinc-900 border border-zinc-700 text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 focus:border-gray-500 transition duration-200">
+                <i
+                    class="fa-solid fa-eye-slash toggle-password absolute right-3 top-4 text-gray-400 hover:text-white cursor-pointer text-sm"></i>
+            </div>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+        <div class="pt-4">
+            <button type="submit"
+                class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded transition duration-200 tracking-wide shadow-md focus:outline-none">
+                Register
+            </button>
+        </div>
+
+        <div class="pt-4 text-sm text-gray-500">
+            Already have an account?
+            <a href="{{ route('login') }}" class="text-white hover:underline ml-1 font-medium">
+                Sign in now.
             </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
         </div>
     </form>
+
+    <x-slot:scripts>
+        <script>
+            document.querySelectorAll('.toggle-password').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            });
+        </script>
+    </x-slot>
 </x-guest-layout>

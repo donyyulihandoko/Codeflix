@@ -1,39 +1,72 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+    <x-slot:title>Reset Password - Codeflix</x-slot>
+    <x-slot:pageTitle>Create New Password</x-slot>
+
+    <form action="{{ route('password.store') }}" method="POST" class="space-y-4">
         @csrf
 
-        <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label for="email" class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">Email
+                Address</label>
+            <input type="email" name="email" id="email" value="{{ old('email', $request->email) }}" required
+                autofocus
+                class="w-full px-4 py-3 rounded bg-zinc-900 border text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 transition duration-200
+                @error('email') border-red-600 focus:border-red-600 @else border-zinc-700 focus:border-gray-500 @enderror">
+
+            @error('email')
+                <p class="mt-1 text-xs text-red-500"><i class="fa-solid fa-circle-info mr-1"></i>{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div>
+            <label for="password" class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">New
+                Password</label>
+            <div class="relative">
+                <input type="password" name="password" id="password" required
+                    class="w-full px-4 py-3 pr-10 rounded bg-zinc-900 border text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 transition duration-200
+                    @error('password') border-red-600 focus:border-red-600 @else border-zinc-700 focus:border-gray-500 @enderror">
+                <i
+                    class="fa-solid fa-eye-slash toggle-password absolute right-3 top-4 text-gray-400 hover:text-white cursor-pointer text-sm"></i>
+            </div>
+
+            @error('password')
+                <p class="mt-1 text-xs text-red-500"><i class="fa-solid fa-circle-info mr-1"></i>{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div>
+            <label for="password_confirmation"
+                class="block text-xs font-semibold text-gray-400 mb-1.5 uppercase tracking-wider">Confirm New
+                Password</label>
+            <div class="relative">
+                <input type="password" name="password_confirmation" id="password_confirmation" required
+                    class="w-full px-4 py-3 pr-10 rounded bg-zinc-900 border border-zinc-700 text-white placeholder-gray-500 focus:outline-none focus:bg-zinc-800 focus:border-gray-500 transition duration-200">
+                <i
+                    class="fa-solid fa-eye-slash toggle-password absolute right-3 top-4 text-gray-400 hover:text-white cursor-pointer text-sm"></i>
+            </div>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
+        <div class="pt-4">
+            <button type="submit"
+                class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded transition duration-200 tracking-wide shadow-md focus:outline-none">
+                Reset Password
+            </button>
         </div>
     </form>
+
+    <x-slot:scripts>
+        <script>
+            document.querySelectorAll('.toggle-password').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            });
+        </script>
+    </x-slot>
 </x-guest-layout>
