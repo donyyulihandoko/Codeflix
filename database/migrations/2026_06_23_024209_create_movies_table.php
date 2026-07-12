@@ -16,9 +16,6 @@ return new class extends Migration
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->text('description');
-            // $table->string('director', 255);
-            // $table->string('writers', 200);
-            // $table->string('stars', 255);
             $table->string('poster', 255);
             $table->datetime('release_date');
             $table->integer('duration');
