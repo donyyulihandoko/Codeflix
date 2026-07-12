@@ -1,88 +1,106 @@
 <x-app-layout>
     <x-slot:title>Home - Codeflix Streaming</x-slot>
 
-    <div class="relative w-full h-[55vh] sm:h-[75vh] bg-cover bg-center flex items-center px-4 sm:px-12 lg:px-20 before:absolute before:inset-0 before:bg-gradient-to-t before:from-zinc-950 before:via-zinc-950/30 before:to-black/40"
-        style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920');">
+    @if ($heroMovie)
+        <div
+            class="relative w-full min-h-[50vh] sm:h-[65vh] bg-zinc-950 flex items-center px-4 sm:px-12 lg:px-20 overflow-hidden border-b border-zinc-900">
 
-        <div class="relative z-10 max-w-xl space-y-4">
-            <span
-                class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold bg-red-600 text-white uppercase tracking-wider">
-                <i class="fa-solid fa-fire mr-1"></i> Trending No. 1
-            </span>
-            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white drop-shadow-md">
-                THE CODE MATRIX
-            </h1>
-            <p class="text-sm sm:text-base text-gray-300 drop-shadow">
-                Seorang software engineer muda menemukan bahwa dunia nyata yang ia tinggali hanyalah sebuah simulasi
-                baris kode pemrograman raksasa yang dikendalikan oleh kecerdasan buatan.
-            </p>
+            <div
+                class="absolute right-0 top-0 w-[500px] h-[500px] bg-red-900/10 rounded-full blur-[120px] pointer-events-none">
+            </div>
+            <div
+                class="absolute left-1/3 bottom-0 w-[300px] h-[300px] bg-zinc-900/40 rounded-full blur-[80px] pointer-events-none">
+            </div>
 
-            <div class="flex items-center space-x-3 pt-2">
-                <a href="#"
-                    class="flex items-center space-x-2 bg-white hover:bg-gray-200 text-black font-bold px-6 py-2.5 rounded shadow transition duration-200">
-                    <i class="fa-solid fa-play text-lg"></i>
-                    <span>Play Now</span>
-                </a>
-                <button
-                    class="flex items-center space-x-2 bg-zinc-600/60 hover:bg-zinc-600/80 text-white font-semibold px-5 py-2.5 rounded shadow backdrop-blur-sm transition duration-200">
-                    <i class="fa-solid fa-circle-info text-lg"></i>
-                    <span>More Info</span>
-                </button>
+            <div class="relative z-10 w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-8">
+
+                <div class="md:col-span-7 space-y-4 text-left">
+                    <span
+                        class="inline-flex items-center px-2.5 py-1 rounded bg-red-600/10 border border-red-500/20 text-xs font-bold text-red-500 uppercase tracking-widest">
+                        <i class="fa-solid fa-bolt mr-1.5 text-[10px]"></i> New Spotlight
+                    </span>
+
+                    <h1
+                        class="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase leading-tight drop-shadow">
+                        {{ $heroMovie->title }}
+                    </h1>
+
+                    <p class="text-sm sm:text-base text-gray-400 leading-relaxed max-w-xl line-clamp-3">
+                        {{ $heroMovie->description }}
+                    </p>
+
+                    <div class="flex items-center space-x-3 pt-2">
+                        <a href="{{ $heroMovie->url_1080 ?? $heroMovie->url_720 }}" target="_blank"
+                            class="flex items-center space-x-2 bg-red-650 hover:bg-red-700 text-white font-extrabold px-6 py-3 rounded-md shadow-lg shadow-red-900/20 transition duration-200 text-sm hover:scale-102">
+                            <i class="fa-solid fa-play text-base"></i>
+                            <span>Watch Stream</span>
+                        </a>
+                        <span
+                            class="text-xs text-gray-500 font-semibold border border-zinc-800 px-2.5 py-1.5 rounded bg-zinc-900/50">
+                            {{ $heroMovie->duration }} Minutes
+                        </span>
+                    </div>
+                </div>
+
+                <div class="hidden md:flex md:col-span-5 justify-center lg:justify-end">
+                    <div
+                        class="relative w-48 lg:w-64 aspect-[2/3] rounded-lg overflow-hidden shadow-2xl shadow-black border border-zinc-800 transform rotate-2 hover:rotate-0 transition duration-300 group">
+
+                        <img src="{{ Str::startsWith($heroMovie->poster, 'http') ? $heroMovie->poster : Storage::url($heroMovie->poster) }}"
+                            alt="{{ $heroMovie->title }}" class="w-full h-full object-cover">
+
+                        <div class="absolute inset-0 border border-white/10 rounded-lg pointer-events-none"></div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
+    @else
+        <div class="h-[15vh] bg-zinc-950"></div>
+    @endif
 
-    <div class="px-4 sm:px-12 lg:px-20 space-y-10 -mt-10 sm:-mt-20 relative z-20">
 
-        <div class="space-y-3">
-            <h2
-                class="text-xl font-bold text-white tracking-wide hover:text-red-500 cursor-pointer transition inline-flex items-center group">
-                Continue Watching
-                <i
-                    class="fa-solid fa-chevron-right text-xs ml-2 opacity-0 group-hover:opacity-100 transition duration-200"></i>
-            </h2>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                @for ($i = 1; $i <= 6; $i++)
-                    <div
-                        class="group relative rounded-md overflow-hidden bg-zinc-900 cursor-pointer shadow aspect-[16/9] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
-                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=600"
-                            alt="Movie Thumbnail" class="w-full h-full object-cover">
+    <div class="px-4 sm:px-12 lg:px-20 pb-20 mt-12 sm:mt-20 relative z-20 space-y-16">
 
-                        <div
-                            class="absolute inset-0 bg-black/80 p-3 opacity-0 group-hover:opacity-100 flex flex-col justify-between transition-opacity duration-200 text-xs">
-                            <div class="font-bold text-white truncate">Movie Title Sample {{ $i }}</div>
-                            <div class="flex items-center space-x-2 text-green-400 font-semibold">
-                                <span>98% Match</span>
-                                <span class="border border-gray-600 px-1 text-[10px] text-gray-300 rounded">13+</span>
-                            </div>
-                        </div>
-                    </div>
-                @endfor
+        <div class="space-y-5">
+            <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
+                <h2
+                    class="text-xl sm:text-2xl font-black text-white tracking-wide hover:text-red-500 cursor-pointer transition inline-flex items-center group">
+                    Browse Movies
+                    <i
+                        class="fa-solid fa-chevron-right text-xs ml-2.5 opacity-0 group-hover:opacity-100 transition duration-200"></i>
+                </h2>
+                <span class="text-xs text-gray-500 font-medium hidden sm:inline">Showing all available streams</span>
             </div>
-        </div>
 
-        <div class="space-y-3">
-            <h2
-                class="text-xl font-bold text-white tracking-wide hover:text-red-500 cursor-pointer transition inline-flex items-center group">
-                Action & Sci-Fi Hollywood
-            </h2>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                @for ($i = 1; $i <= 6; $i++)
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 pt-2">
+                @foreach ($movies as $movie)
                     <div
-                        class="group relative rounded-md overflow-hidden bg-zinc-900 cursor-pointer shadow aspect-[16/9] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
-                        <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600"
-                            alt="Movie Thumbnail" class="w-full h-full object-cover">
+                        class="group relative rounded-md overflow-hidden bg-zinc-900 cursor-pointer shadow-lg aspect-[2/3] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
+
+                        <img src="{{ Str::startsWith($movie->poster, 'http') ? $movie->poster : Storage::url($movie->poster) }}"
+                            alt="{{ $movie->title }}" class="w-full h-full object-cover">
+
                         <div
-                            class="absolute inset-0 bg-black/80 p-3 opacity-0 group-hover:opacity-100 flex flex-col justify-between transition-opacity duration-200 text-xs">
-                            <div class="font-bold text-white truncate">Action Thriller {{ $i }}</div>
-                            <div class="flex items-center space-x-2 text-green-400 font-semibold">
-                                <span>95% Match</span>
-                                <span class="border border-gray-600 px-1 text-[10px] text-gray-300 rounded">16+</span>
+                            class="absolute inset-0 bg-black/85 p-4 opacity-0 group-hover:opacity-100 flex flex-col justify-between transition-opacity duration-200 text-xs">
+                            <div class="space-y-1">
+                                <div class="font-bold text-white truncate text-sm">{{ $movie->title }}</div>
+                                <div class="text-gray-400 text-[11px] line-clamp-4 leading-relaxed">
+                                    {{ $movie->description }}</div>
+                            </div>
+
+                            <div
+                                class="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-gray-400 font-semibold">
+                                <span
+                                    class="bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] text-gray-300">{{ $movie->duration }}
+                                    Min</span>
+                                <span>{{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}</span>
                             </div>
                         </div>
+
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
 
