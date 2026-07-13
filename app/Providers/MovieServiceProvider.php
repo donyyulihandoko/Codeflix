@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Impl\MovieRepositoryImpl;
+use App\Repositories\MovieRepository;
 use App\Services\Impl\MovieServiceImpl;
 use App\Services\MovieService;
 use Illuminate\Contracts\Support\DeferrableProvider;
@@ -14,15 +16,20 @@ class MovieServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register(): void
     {
-        $this->app->singleton(MovieService::class, function($app){
-            return new MovieServiceImpl();
-        });
+        // $this->app->singleton(MovieService::class, function($app){
+        //     return new MovieServiceImpl();
+        // });
+
+        $this->app->bind(MovieService::class, MovieServiceImpl::class);
+        $this->app->singleton(MovieRepository::class, MovieRepositoryImpl::class);
+
     }
 
     public function provides():array
     {
         return [
-            MovieService::class
+            MovieService::class,
+            MovieRepository::class
         ];
     }
 

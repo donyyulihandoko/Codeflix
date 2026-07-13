@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+
+Route::controller(MovieController::class)->middleware(['auth', 'verified'])
+    ->group(function(){
+    Route::get('/movies', 'index')->name('movies.index');
+    Route::get('/movies/{movie:slug}', 'show')->name('movies.show');
+    Route::get('/movies/{movie:slug}/watch', 'watch')->name('movies.watch');
 });
 
 require __DIR__.'/auth.php';

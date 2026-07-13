@@ -30,7 +30,7 @@
                     </p>
 
                     <div class="flex items-center space-x-3 pt-2">
-                        <a href="{{ $heroMovie->url_1080 ?? $heroMovie->url_720 }}" target="_blank"
+                        <a href="{{ route('movies.show', $heroMovie) }}"
                             class="flex items-center space-x-2 bg-red-650 hover:bg-red-700 text-white font-extrabold px-6 py-3 rounded-md shadow-lg shadow-red-900/20 transition duration-200 text-sm hover:scale-102">
                             <i class="fa-solid fa-play text-base"></i>
                             <span>Watch Stream</span>
@@ -65,41 +65,45 @@
 
         <div class="space-y-5">
             <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
-                <h2
-                    class="text-xl sm:text-2xl font-black text-white tracking-wide hover:text-red-500 cursor-pointer transition inline-flex items-center group">
-                    Browse Movies
-                    <i
-                        class="fa-solid fa-chevron-right text-xs ml-2.5 opacity-0 group-hover:opacity-100 transition duration-200"></i>
-                </h2>
+                <a href="{{ route('movies.index') }}">
+                    <h2
+                        class="text-xl sm:text-2xl font-black text-white tracking-wide hover:text-red-500 cursor-pointer transition inline-flex items-center group">
+                        Browse Movies
+                        <i
+                            class="fa-solid fa-chevron-right text-xs ml-2.5 opacity-0 group-hover:opacity-100 transition duration-200"></i>
+                    </h2>
+                </a>
                 <span class="text-xs text-gray-500 font-medium hidden sm:inline">Showing all available streams</span>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 pt-2">
-                @foreach ($movies as $movie)
-                    <div
-                        class="group relative rounded-md overflow-hidden bg-zinc-900 cursor-pointer shadow-lg aspect-[2/3] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
-
-                        <img src="{{ Str::startsWith($movie->poster, 'http') ? $movie->poster : Storage::url($movie->poster) }}"
-                            alt="{{ $movie->title }}" class="w-full h-full object-cover">
-
+                @foreach ($trendingMovies as $movie)
+                    <a href="{{ route('movies.show', $movie) }}">
                         <div
-                            class="absolute inset-0 bg-black/85 p-4 opacity-0 group-hover:opacity-100 flex flex-col justify-between transition-opacity duration-200 text-xs">
-                            <div class="space-y-1">
-                                <div class="font-bold text-white truncate text-sm">{{ $movie->title }}</div>
-                                <div class="text-gray-400 text-[11px] line-clamp-4 leading-relaxed">
-                                    {{ $movie->description }}</div>
-                            </div>
+                            class="group relative rounded-md overflow-hidden bg-zinc-900 cursor-pointer shadow-lg aspect-[2/3] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
+
+                            <img src="{{ Str::startsWith($movie->poster, 'http') ? $movie->poster : Storage::url($movie->poster) }}"
+                                alt="{{ $movie->title }}" class="w-full h-full object-cover">
 
                             <div
-                                class="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-gray-400 font-semibold">
-                                <span
-                                    class="bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] text-gray-300">{{ $movie->duration }}
-                                    Min</span>
-                                <span>{{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}</span>
-                            </div>
-                        </div>
+                                class="absolute inset-0 bg-black/85 p-4 opacity-0 group-hover:opacity-100 flex flex-col justify-between transition-opacity duration-200 text-xs">
+                                <div class="space-y-1">
+                                    <div class="font-bold text-white truncate text-sm">{{ $movie->title }}</div>
+                                    <div class="text-gray-400 text-[11px] line-clamp-4 leading-relaxed">
+                                        {{ $movie->description }}</div>
+                                </div>
 
-                    </div>
+                                <div
+                                    class="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-gray-400 font-semibold">
+                                    <span
+                                        class="bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] text-gray-300">{{ $movie->duration }}
+                                        Min</span>
+                                    <span>{{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </a>
                 @endforeach
             </div>
         </div>

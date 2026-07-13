@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
+
 use App\Models\Movie;
 use Illuminate\Pagination\LengthAwarePaginator;
-interface MovieService
+
+interface MovieRepository
 {
     // dashboard controller
     public function getHeroMovie();
 
+    public function getTrendingMovies();
+
     public function getContinueWatching();
 
-    public function getTredingMovies();
-
     // movie controller
+
     public function getMovies(?string $search = null): LengthAwarePaginator;
 
     public function showMovie(Movie $movie): Movie;
 
     public function watchMovie(Movie $movie): Movie;
+
+
 }
