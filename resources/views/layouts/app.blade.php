@@ -24,9 +24,9 @@
                 </a>
 
                 <div class="hidden md:flex items-center space-x-5 text-sm font-medium text-gray-300">
-                    <a href="#" class="text-white hover:text-gray-300 transition">Home</a>
-                    <a href="#" class="hover:text-white transition">Series</a>
-                    <a href="#" class="hover:text-white transition">Movies</a>
+                    <a href="{{ route('dashboard') }}" class="text-white hover:text-gray-300 transition">Home</a>
+                    {{-- <a href="#" class="hover:text-white transition">Series</a> --}}
+                    <a href="{{ route('movies.index') }}" class="hover:text-white transition">Movies</a>
                     <a href="#" class="hover:text-white transition">New & Popular</a>
                     <a href="#" class="hover:text-white transition">My List</a>
                 </div>
