@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Plan;
+use Illuminate\Support\Facades\Schema;
 
 class PlanSeeder extends Seeder
 {
@@ -12,6 +13,8 @@ class PlanSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
+        Plan::truncate();
         $plans = [
             [
                 'title' => 'Basic',
@@ -46,5 +49,6 @@ class PlanSeeder extends Seeder
         ];
 
         Plan::insert($plans);
+        Schema::enableForeignKeyConstraints();
     }
 }

@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Filament\Resources\Memberships\Tables;
+namespace App\Filament\Resources\Subscriptions\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-// use Filament\Actions\EditAction;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Actions\DeleteAction;
 use Filament\Tables\Table;
 
-class MembershipsTable
+class SubscriptionsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('user_id')
-                    ->label('User ID')
-                    ->sortable(),
+                    ->label('User ID'),
                 TextColumn::make('user.name')
                     ->label('User')
                     ->searchable(),
@@ -31,12 +29,10 @@ class MembershipsTable
                     ->boolean(),
                 TextColumn::make('start_date')
                     ->label('Start Date')
-                    ->dateTime()
-                    ->sortable(),
+                    ->dateTime(),
                 TextColumn::make('end_date')
                     ->label('End Date')
-                    ->dateTime()
-                    ->sortable(),
+                    ->dateTime(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -49,8 +45,7 @@ class MembershipsTable
             ])
             ->recordActions([
                 ViewAction::make(),
-            DeleteAction::make(),
-                // EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

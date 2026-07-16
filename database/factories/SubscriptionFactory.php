@@ -2,15 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Membership;
-use App\Models\User;
-use App\Models\Plan;
+use App\Models\Subscription;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use App\Models\Plan;
+use App\Models\User;
 /**
- * @extends Factory<Membership>
+ * @extends Factory<Subscription>
  */
-class MembershipFactory extends Factory
+class SubscriptionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -23,8 +22,8 @@ class MembershipFactory extends Factory
             'user_id' => User::factory()->is_member(),
             'plan_id' => Plan::factory(),
             'active' => true,
-            'start_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'end_date' => $this->faker->dateTimeBetween('now', '+1 year'),
+            'start_date' => now(),
+            'end_date' => now()->addDays(30),
         ];
     }
 }

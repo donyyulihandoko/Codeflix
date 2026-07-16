@@ -79,19 +79,19 @@
                             <span
                                 class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Director</span>
                             <span
-                                class="col-span-9 text-gray-350 hover:text-red-400 cursor-pointer transition">Christopher
-                                Nolan</span>
+                                class="col-span-9 text-gray-350 hover:text-red-400 cursor-pointer transition">{{ $movie->directors->pluck('name')->implode(', ') }}</span>
                         </div>
                         <div class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5">
                             <span
                                 class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Writers</span>
-                            <span class="col-span-9 text-gray-350">Jonathan Nolan, David S. Goyer</span>
+                            <span
+                                class="col-span-9 text-gray-350">{{ $movie->writers->pluck('name')->implode(', ') }}</span>
                         </div>
                         <div class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5">
                             <span
                                 class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Stars</span>
-                            <span class="col-span-9 text-red-500/90 font-medium">Christian Bale, Heath Ledger, Aaron
-                                Eckhart</span>
+                            <span
+                                class="col-span-9 text-red-500/90 font-medium">{{ $movie->stars->pluck('name')->implode(', ') }}</span>
                         </div>
                     </div>
 
@@ -99,7 +99,8 @@
                         <div class="space-y-2">
                             <div>
                                 <span class="text-gray-550 block font-semibold mb-0.5">Genres:</span>
-                                <span class="text-gray-300">Action, Sci-Fi, Thriller</span>
+                                <span class="text-gray-300">
+                                    {{ $movie->categories->pluck('title')->implode(', ') }}</span>
                             </div>
                             <div>
                                 <span class="text-gray-550 block font-semibold mb-0.5">Audio Quality:</span>

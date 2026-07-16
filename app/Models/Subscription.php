@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
-class Membership extends Model
+
+class Subscription extends Model
 {
-    /** @use HasFactory<\Database\Factories\MembershipFactory> */
+    /** @use HasFactory<\Database\Factories\SubscriptionFactory> */
     use HasFactory, LogsActivity;
 
-    protected $table = 'memberships';
+    protected $table = 'subscriptions';
 
     protected $fillable = [
         'user_id',
@@ -31,13 +32,13 @@ class Membership extends Model
     //  Activity Log
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "Membership has been {$eventName}";
+        return "Subscription has been {$eventName}";
     }
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('membership')
+            ->useLogName('subscription')
             ->logAll()
             ->logOnlyDirty();
     }

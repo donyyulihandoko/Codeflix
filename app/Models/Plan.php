@@ -47,8 +47,8 @@ class Plan extends Model
     }
 
     // Relationships
-    public function memberships() :HasMany
+    public function subscriptions() :HasMany
     {
-        return $this->hasMany(Membership::class);
+        return $this->hasMany(Subscription::class);
     }
 }

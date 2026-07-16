@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,12 +18,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+require __DIR__.'/auth.php';
 
 Route::controller(MovieController::class)->middleware(['auth', 'verified'])
     ->group(function(){
     Route::get('/movies', 'index')->name('movies.index');
     Route::get('/movies/{movie:slug}', 'show')->name('movies.show');
-    Route::get('/movies/{movie:slug}/watch', 'watch')->name('movies.watch');
+    Route::get('/movies/{movie:slug}/watch', 'watch')->name('movies.watch')->middleware(['subscribed']);
 });
 
-require __DIR__.'/auth.php';
+Route::controller(SubscriptionController::class)->middleware(['auth', 'verified'])
+    ->group(function(){
+    Route::get('/subscriptions', 'index')->name('subscriptions.index');
+    Route::get('/subscriptions/success', 'success' )->name('subscriptions.success')->middleware(['subscribed']);
+    Route::get('/subscriptions/{plan}', 'show')->name('subscriptions.show');
+    Route::post('subscriptions/{plan}/purchase', 'purchase')->name('subscriptions.purchase');
+
+});
