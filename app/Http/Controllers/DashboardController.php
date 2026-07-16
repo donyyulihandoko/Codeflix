@@ -18,7 +18,7 @@ class DashboardController extends Controller
         return response()->view('dashboard', [
             'heroMovie' => $this->movieService->getHeroMovie(),
             'trendingMovies' => $this->movieService->getTredingMovies(),
-            'continueWatcing' => $this->movieService->getContinueWatching(),
+            // 'continueWatcing' => $this->movieService->getContinueWatching(),
         ]);
     }
 }

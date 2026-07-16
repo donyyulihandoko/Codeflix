@@ -16,7 +16,7 @@ class DashboardControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(User::factory()->is_member()->create());
+        $this->actingAs(User::factory()->is_member1()->create());
     }
 
     public function test_index_success(): void

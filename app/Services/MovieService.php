@@ -6,11 +6,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface MovieService
 {
     // dashboard controller
-    public function getHeroMovie();
+    public function getHeroMovie(): ?Movie;
 
-    public function getContinueWatching();
+    // public function getContinueWatching() : LengthAwarePaginator;
 
-    public function getTredingMovies();
+    public function getTredingMovies(): LengthAwarePaginator;
 
     // movie controller
     public function getMovies(?string $search = null): LengthAwarePaginator;

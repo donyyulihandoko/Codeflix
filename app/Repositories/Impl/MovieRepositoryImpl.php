@@ -12,7 +12,7 @@ class MovieRepositoryImpl implements MovieRepository
 
     // dashboard controller
     #[Override]
-    public function getHeroMovie()
+    public function getHeroMovie(): ?Movie
     {
         return Movie::query()
             ->latest()
@@ -20,18 +20,18 @@ class MovieRepositoryImpl implements MovieRepository
     }
 
     #[Override]
-    public function getTrendingMovies()
+    public function getTrendingMovies(): LengthAwarePaginator
     {
         return Movie::query()
             ->latest()
             ->paginate(6);
     }
 
-    #[Override]
-    public function getContinueWatching()
-    {
-        //
-    }
+    // #[Override]
+    // public function getContinueWatching(): LengthAwarePaginator
+    // {
+    //     //
+    // }
 
     // movie controller
 
@@ -49,7 +49,8 @@ class MovieRepositoryImpl implements MovieRepository
     #[Override]
     public function showMovie(Movie $movie): Movie
     {
-        return $movie;
+        // return $movie;
+        return $movie->load(['categories', 'writers', 'directors', 'stars']);
     }
 
     #[Override]

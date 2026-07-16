@@ -17,22 +17,22 @@ class MovieServiceImpl implements MovieService
     }
 
     #[Override]
-    public function getHeroMovie()
+    public function getHeroMovie(): ?Movie
     {
         return $this->movieRepository->getHeroMovie();
     }
 
     #[Override]
-    public function getTredingMovies()
+    public function getTredingMovies(): LengthAwarePaginator
     {
         return $this->movieRepository->getTrendingMovies();
     }
 
-    #[Override]
-    public function getContinueWatching()
-    {
-        return $this->movieRepository->getContinueWatching();
-    }
+    // #[Override]
+    // public function getContinueWatching()
+    // {
+    //     return $this->movieRepository->getContinueWatching();
+    // }
 
     // movie controller
     public function getMovies(?string $search = null): LengthAwarePaginator

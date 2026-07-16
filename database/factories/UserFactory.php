@@ -58,10 +58,12 @@ class UserFactory extends Factory
 
     public function is_member1(): static
     {
+        $memberRole = Role::firstOrCreate(['name' => 'member']);
+
         return $this->state(fn(array $attributes) => [
             'email' => fake()->email()
-        ])->afterCreating(function (User $user) {
-            $user->assignRole('member');
+        ])->afterCreating(function (User $user) use ($memberRole) {
+            $user->assignRole($memberRole);
         });
     }
 
