@@ -59,54 +59,94 @@
         <div class="h-[15vh] bg-zinc-950"></div>
     @endif
 
-
-
     <div class="px-4 sm:px-12 lg:px-20 pb-20 mt-12 sm:mt-20 relative z-20 space-y-16">
 
-        <div class="space-y-5">
+        <!-- 1. Section: Trending Movies -->
+        <section class="space-y-6">
             <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
-                <a href="{{ route('movies.index') }}">
-                    <h2
-                        class="text-xl sm:text-2xl font-black text-white tracking-wide hover:text-red-500 cursor-pointer transition inline-flex items-center group">
-                        Browse Movies
-                        <i
-                            class="fa-solid fa-chevron-right text-xs ml-2.5 opacity-0 group-hover:opacity-100 transition duration-200"></i>
-                    </h2>
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-red-600/10 border border-red-500/20 rounded-lg text-red-500">
+                        <i class="fa-solid fa-fire text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide uppercase">
+                            Trending Now
+                        </h2>
+                        <p class="text-xs text-gray-400 hidden sm:block">
+                            Film yang paling banyak ditonton dan hangat dibicarakan minggu ini
+                        </p>
+                    </div>
+                </div>
+
+                <a href="{{ route('movies.index') }}"
+                    class="text-xs text-gray-400 hover:text-white font-semibold transition inline-flex items-center group">
+                    <span>Lihat Semua</span>
+                    <i
+                        class="fa-solid fa-chevron-right text-[10px] ml-1.5 transform group-hover:translate-x-1 transition"></i>
                 </a>
-                <span class="text-xs text-gray-500 font-medium hidden sm:inline">Showing all available streams</span>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 pt-2">
-                @foreach ($trendingMovies as $movie)
-                    <a href="{{ route('movies.show', $movie) }}">
-                        <div
-                            class="group relative rounded-md overflow-hidden bg-zinc-900 cursor-pointer shadow-lg aspect-[2/3] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
+            <x-trending-movie-list />
+        </section>
 
-                            <img src="{{ Str::startsWith($movie->poster, 'http') ? $movie->poster : Storage::url($movie->poster) }}"
-                                alt="{{ $movie->title }}" class="w-full h-full object-cover">
+        <!-- 2. Section: Top Rated Movies -->
+        <section class="space-y-6">
+            <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-yellow-500/10 border border-yellow-500/20 rounded-lg text-yellow-400">
+                        <i class="fa-solid fa-trophy text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide uppercase">
+                            Top Rated Movies
+                        </h2>
+                        <p class="text-xs text-gray-400 hidden sm:block">
+                            Koleksi film dengan penilaian tertinggi pilihan penonton
+                        </p>
+                    </div>
+                </div>
 
-                            <div
-                                class="absolute inset-0 bg-black/85 p-4 opacity-0 group-hover:opacity-100 flex flex-col justify-between transition-opacity duration-200 text-xs">
-                                <div class="space-y-1">
-                                    <div class="font-bold text-white truncate text-sm">{{ $movie->title }}</div>
-                                    <div class="text-gray-400 text-[11px] line-clamp-4 leading-relaxed">
-                                        {{ $movie->description }}</div>
-                                </div>
-
-                                <div
-                                    class="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-gray-400 font-semibold">
-                                    <span
-                                        class="bg-zinc-800 px-1.5 py-0.5 rounded text-[10px] text-gray-300">{{ $movie->duration }}
-                                        Min</span>
-                                    <span>{{ \Carbon\Carbon::parse($movie->release_date)->format('Y') }}</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </a>
-                @endforeach
+                <a href="{{ route('movies.index') }}"
+                    class="text-xs text-gray-400 hover:text-white font-semibold transition inline-flex items-center group">
+                    <span>Lihat Semua</span>
+                    <i
+                        class="fa-solid fa-chevron-right text-[10px] ml-1.5 transform group-hover:translate-x-1 transition"></i>
+                </a>
             </div>
-        </div>
+
+            <x-top-rate-movie-list />
+        </section>
+
+        <!-- 3. Section: New Release Movies -->
+        <section class="space-y-6">
+            <div class="flex items-center justify-between border-b border-zinc-900 pb-3">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-400">
+                        <i class="fa-solid fa-bolt text-sm sm:text-base"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-black text-white tracking-wide uppercase">
+                            New Releases
+                        </h2>
+                        <p class="text-xs text-gray-400 hidden sm:block">
+                            Film terbaru yang baru saja ditambahkan ke katalog
+                        </p>
+                    </div>
+                </div>
+
+                <a href="{{ route('movies.index') }}"
+                    class="text-xs text-gray-400 hover:text-white font-semibold transition inline-flex items-center group">
+                    <span>Lihat Semua</span>
+                    <i
+                        class="fa-solid fa-chevron-right text-[10px] ml-1.5 transform group-hover:translate-x-1 transition"></i>
+                </a>
+            </div>
+
+            <x-new-release-movie-list />
+        </section>
 
     </div>
+
+
+
 </x-app-layout>

@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\RatingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,5 +34,13 @@ Route::controller(SubscriptionController::class)->middleware(['auth', 'verified'
     Route::get('/subscriptions/success', 'success' )->name('subscriptions.success')->middleware(['subscribed']);
     Route::get('/subscriptions/{plan}', 'show')->name('subscriptions.show');
     Route::post('subscriptions/{plan}/purchase', 'purchase')->name('subscriptions.purchase');
+});
 
+Route::controller(RatingController::class)->middleware(['auth', 'verified', 'subscribed'])
+    ->group(function(){
+    Route::post('ratings/{movie}', 'store')->name('ratings.store');
+});
+
+Route::fallback(function(){
+    return view('errors.fallback');
 });

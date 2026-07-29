@@ -7,6 +7,7 @@ use Override;
 use App\Models\Movie;
 use App\Repositories\MovieRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 class MovieServiceImpl implements MovieService
 {
@@ -23,16 +24,27 @@ class MovieServiceImpl implements MovieService
     }
 
     #[Override]
-    public function getTredingMovies(): LengthAwarePaginator
+    public function getTredingMovies(int $limit): Collection
     {
-        return $this->movieRepository->getTrendingMovies();
+        return $this->movieRepository->getTrendingMovies($limit);
     }
 
-    // #[Override]
-    // public function getContinueWatching()
-    // {
-    //     return $this->movieRepository->getContinueWatching();
-    // }
+    public function getTopRateMovies(int $limit): Collection
+    {
+        return $this->movieRepository->getTopRateMovies($limit);
+    }
+
+    #[Override]
+    public function getContinueWatching(int $limit): Collection
+    {
+            return $this->movieRepository->getContinueWatching($limit);
+    }
+
+    #[Override]
+    public function getNewReleaseMovies(int $limit): Collection
+    {
+        return $this->movieRepository->getNewReleaseMovies($limit);
+    }
 
     // movie controller
     public function getMovies(?string $search = null): LengthAwarePaginator

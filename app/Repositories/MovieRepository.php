@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Movie;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface MovieRepository
@@ -10,9 +11,13 @@ interface MovieRepository
     // dashboard controller
     public function getHeroMovie(): ?Movie ;
 
-    public function getTrendingMovies(): LengthAwarePaginator;
+    public function getTrendingMovies(int $limit): Collection;
 
-    // public function getContinueWatching(): LengthAwarePaginator;
+    public function getContinueWatching(int $limit): Collection;
+
+    public function getTopRateMovies(int $limit): Collection;
+
+    public function getNewReleaseMovies(int $limit): Collection;
 
     // movie controller
 
@@ -22,5 +27,5 @@ interface MovieRepository
 
     public function watchMovie(Movie $movie): Movie;
 
-
+    public function getAverageRating(): ?int;
 }

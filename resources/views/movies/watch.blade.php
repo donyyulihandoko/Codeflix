@@ -7,7 +7,7 @@
         <div class="w-full bg-black border-b border-zinc-900 shadow-2xl relative">
             <div class="max-w-6xl mx-auto aspect-video relative group">
 
-                <!-- Floating Back Button (Muncul elegan di pojok kiri atas player) -->
+                <!-- Floating Back Button -->
                 <div
                     class="absolute top-4 left-4 z-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <a href="{{ route('movies.show', $movie) }}"
@@ -50,41 +50,7 @@
                         </h1>
                     </div>
 
-                    <!-- Pilihan Server / Resolusi Kualitas (Interaktif JavaScript) -->
-                    <div class="bg-zinc-900/20 border border-zinc-900/60 p-4 rounded-xl space-y-3">
-                        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                            <i class="fa-solid fa-sliders text-red-500"></i> Adjust Stream Quality
-                        </h3>
-
-                        <div class="flex flex-wrap gap-2 pt-1">
-                            <!-- Tombol 1080p (Default Aktif) -->
-                            <button onclick="switchQuality('{{ $movie->url_1080 }}', this)"
-                                class="quality-btn flex items-center space-x-2 bg-red-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg border border-red-700/50 transition">
-                                <i class="fa-solid fa-circle-check text-[10px]"></i>
-                                <span>Full HD (1080p)</span>
-                            </button>
-
-                            <!-- Tombol 720p (Jika ada di database) -->
-                            @if ($movie->url_720)
-                                <button onclick="switchQuality('{{ $movie->url_720 }}', this)"
-                                    class="quality-btn flex items-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-gray-400 hover:text-white font-bold text-xs px-4 py-2.5 rounded-lg border border-zinc-800 transition">
-                                    <i class="fa-solid fa-circle text-[10px] text-zinc-700"></i>
-                                    <span>HD (720p)</span>
-                                </button>
-                            @endif
-
-                            <!-- Tombol 4K (Jika ada di database) -->
-                            @if ($movie->url_4k)
-                                <button onclick="switchQuality('{{ $movie->url_4k }}', this)"
-                                    class="quality-btn flex items-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-gray-400 hover:text-white font-bold text-xs px-4 py-2.5 rounded-lg border border-zinc-800 transition">
-                                    <i class="fa-solid fa-bolt text-yellow-500 text-[10px]"></i>
-                                    <span>4K Ultra HD</span>
-                                </button>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- Sinopsis Singkat Pengingat Cerita -->
+                    <!-- Sinopsis Singkat -->
                     <div class="space-y-2">
                         <h4 class="text-xs font-bold text-gray-500 uppercase tracking-widest">Storyline</h4>
                         <p class="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-4xl">
@@ -94,8 +60,94 @@
 
                 </div>
 
-                <!-- Sisi Kanan: Panel Status Akses Premium -->
+                <!-- Sisi Kanan: Panel Status Akses Premium & FORM RATING (FULL PHP) -->
                 <div class="lg:col-span-4 space-y-4">
+
+                    <!-- ─── FORM RATING WITH DECIMAL (FULL PHP) ─── -->
+                    <div
+                        class="bg-zinc-900/40 border border-zinc-900/80 p-5 rounded-xl space-y-4 shadow-xl backdrop-blur-sm">
+                        <div class="flex items-center justify-between border-b border-zinc-800/80 pb-3">
+                            <h3 class="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
+                                <i class="fa-solid fa-star text-yellow-500"></i> Rate Movie
+                            </h3>
+
+                            <!-- Menampilkan rating user saat ini (jika ada) -->
+                            @php
+                                $userRating = $movie->ratings->where('user_id', auth()->id())->first()?->rating;
+                            @endphp
+                            @if ($userRating)
+                                <span
+                                    class="text-[10px] bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2 py-0.5 rounded font-bold">
+                                    Your Rating: {{ number_format($userRating, 1) }} ★
+                                </span>
+                            @endif
+                        </div>
+
+                        <!-- Alert Pesan Sukses -->
+                        {{-- @if (session('success'))
+                            <div
+                                class="p-3 bg-green-500/10 border border-green-500/20 text-green-400 text-xs rounded-lg flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>{{ session('success') }}</span>
+                            </div>
+                        @endif --}}
+
+                        <!-- Alert Error Validasi -->
+                        {{-- @error('rating')
+                            <div
+                                class="p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg flex items-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                <span>{{ $message }}</span>
+                            </div>
+                        @enderror --}}
+
+                        <!-- Form HTML Murni -->
+                        <form action="{{ route('ratings.store', $movie) }}" method="POST" class="space-y-4">
+                            @csrf
+
+                            <div class="space-y-1.5">
+                                <label for="rating"
+                                    class="text-[11px] font-bold text-gray-400 uppercase tracking-wider block">
+                                    Choose Rating Score:
+                                </label>
+
+                                <!-- Dropdown Pilihan Angka Koma (Kelipatan 0.5) -->
+                                <div class="relative">
+                                    <select name="rating" id="rating"
+                                        class="w-full bg-zinc-900 border border-zinc-800 text-white text-xs font-bold rounded-lg p-3 focus:ring-2 focus:ring-red-600 focus:border-transparent outline-none cursor-pointer appearance-none pr-8">
+                                        <option value="" disabled
+                                            {{ old('rating', $userRating) ? '' : 'selected' }}>-- Select Rating Score
+                                            --</option>
+
+                                        <!-- Loop Kelipatan 0.5 dari 5.0 sampai 0.5 -->
+                                        @for ($val = 5.0; $val >= 0.5; $val -= 0.5)
+                                            <option value="{{ $val }}"
+                                                {{ (string) old('rating', $userRating) === (string) $val ? 'selected' : '' }}>
+                                                {{ number_format($val, 1) }} ★
+                                                {{ $val >= 4.5 ? '(Excellent)' : ($val >= 3.5 ? '(Good)' : ($val >= 2.5 ? '(Average)' : '(Poor)')) }}
+                                            </option>
+                                        @endfor
+                                    </select>
+
+                                    <!-- Icon Panah Dropdown -->
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
+                                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tombol Submit -->
+                            <button type="submit"
+                                class="w-full bg-red-600 hover:bg-red-700 text-white font-bold text-xs py-2.5 px-4 rounded-lg border border-red-700/50 transition flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                                <span>Submit Rating</span>
+                            </button>
+                        </form>
+                    </div>
+
+
+                    <!-- Panel Status Premium -->
                     <div
                         class="bg-zinc-900/40 border border-zinc-900/80 p-5 rounded-xl space-y-4 shadow-xl backdrop-blur-sm text-xs">
                         <div class="space-y-1">
@@ -108,9 +160,10 @@
                                     Premium
                                 </span>
                             </div>
-                            <p class="text-[11px] text-gray-500">Logged in as <span
-                                    class="text-zinc-300 font-medium">{{ auth()->user()->name }}</span>. You have full
-                                access to high-bitrate audio and crystal-clear streams.</p>
+                            <p class="text-[11px] text-gray-500">
+                                Logged in as <span class="text-zinc-300 font-medium">{{ auth()->user()->name }}</span>.
+                                You have full access to high-bitrate audio and crystal-clear streams.
+                            </p>
                         </div>
 
                         <!-- Utility Action Buttons -->
@@ -122,38 +175,10 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
 
             </div>
         </div>
     </div>
-
-    <!-- ─── 3. JAVASCRIPT UTILITY (KONTROL RESOLUSI INSTAN) ─── -->
-    <script>
-        function switchQuality(videoUrl, buttonElement) {
-            // 1. Ganti src iframe video player secara instan
-            document.getElementById('video-player').src = videoUrl;
-
-            // 2. Reset semua gaya tombol ke mode normal (tidak aktif)
-            document.querySelectorAll('.quality-btn').forEach(btn => {
-                btn.className =
-                    "quality-btn flex items-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-gray-400 hover:text-white font-bold text-xs px-4 py-2.5 rounded-lg border border-zinc-800 transition";
-                // Reset icon di dalamnya menjadi dot abu-abu biasa
-                const icon = btn.querySelector('i');
-                if (icon && !icon.classList.contains('fa-bolt')) {
-                    icon.className = "fa-solid fa-circle text-[10px] text-zinc-700";
-                }
-            });
-
-            // 3. Ubah tombol yang diklik menjadi mode aktif (Merah Neon)
-            buttonElement.className =
-                "quality-btn flex items-center space-x-2 bg-red-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg border border-red-700/50 transition";
-
-            // Ubah icon tombol aktif menjadi centang sukses
-            const activeIcon = buttonElement.querySelector('i');
-            if (activeIcon && !activeIcon.classList.contains('fa-bolt')) {
-                activeIcon.className = "fa-solid fa-circle-check text-[10px]";
-            }
-        }
-    </script>
 </x-app-layout>
