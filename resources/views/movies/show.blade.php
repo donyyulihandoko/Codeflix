@@ -3,19 +3,19 @@
 
     <div class="w-full min-h-screen bg-zinc-950 pb-24 text-gray-200">
 
+        <!-- Hero / Player Header Section -->
         <div class="w-full bg-black border-b border-zinc-900 shadow-2xl relative">
             <div class="max-w-6xl mx-auto aspect-video">
-                <!-- Di file movies/show.blade.php (Halaman Detail) -->
                 <div
                     class="w-full bg-zinc-900 border-b border-zinc-800 shadow-2xl relative aspect-video max-w-6xl mx-auto flex flex-col items-center justify-center space-y-4">
-                    <!-- Taruh gambar backdrop film agak gelap di belakang tombol -->
                     <img src="{{ Str::startsWith($movie->poster, 'http') ? $movie->poster : Storage::url($movie->poster) }}"
                         class="absolute inset-0 w-full h-full object-cover opacity-20 filter blur-[2px]">
 
                     <div class="relative z-10 text-center space-y-4 px-4">
                         <span
-                            class="bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded">Premium
-                            Content</span>
+                            class="bg-red-600 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded">
+                            Premium Content
+                        </span>
                         <h2 class="text-xl sm:text-3xl font-black text-white uppercase">{{ $movie->title }}</h2>
 
                         <a href="{{ route('movies.watch', $movie) }}"
@@ -25,15 +25,13 @@
                         </a>
                     </div>
                 </div>
-                {{-- <iframe id="video-player" src="{{ $movie->url_1080 }}" class="w-full h-full" allowfullscreen
-                    allow="autoplay; encrypted-media; picture-in-picture">
-                </iframe> --}}
             </div>
         </div>
 
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
 
+                <!-- Poster Left Sidebar -->
                 <div class="md:col-span-3 hidden md:block">
                     <div
                         class="relative w-full aspect-[2/3] rounded-xl overflow-hidden shadow-2xl shadow-black border border-zinc-900">
@@ -45,9 +43,18 @@
                     </div>
                 </div>
 
+                <!-- Main Details -->
                 <div class="md:col-span-6 space-y-6">
                     <div class="space-y-3">
                         <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold tracking-wide uppercase">
+                            <!-- 1. Average Rating Badge Header -->
+                            <div
+                                class="flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 px-2.5 py-0.5 rounded">
+                                <i class="fa-solid fa-star text-[10px]"></i>
+                                <span>{{ $movie->ratings_avg_rating ? number_format($movie->ratings_avg_rating, 1) : 'N/A' }}</span>
+                                <span class="text-zinc-500 font-normal">/ 5.0</span>
+                            </div>
+
                             <span class="bg-red-600/10 text-red-500 border border-red-500/20 px-2 py-0.5 rounded">
                                 <i class="fa-solid fa-video mr-1"></i> {{ $movie->url_4k ? '4K Ultra' : 'Full HD' }}
                             </span>
@@ -81,6 +88,7 @@
                             <span
                                 class="col-span-9 text-gray-350 hover:text-red-400 cursor-pointer transition">{{ $movie->directors->pluck('name')->implode(', ') }}</span>
                         </div>
+
                         <div class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5">
                             <span
                                 class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Writers</span>
@@ -99,8 +107,8 @@
                         <div class="space-y-2">
                             <div>
                                 <span class="text-gray-550 block font-semibold mb-0.5">Genres:</span>
-                                <span class="text-gray-300">
-                                    {{ $movie->categories->pluck('title')->implode(', ') }}</span>
+                                <span
+                                    class="text-gray-300">{{ $movie->categories->pluck('title')->implode(', ') }}</span>
                             </div>
                             <div>
                                 <span class="text-gray-550 block font-semibold mb-0.5">Audio Quality:</span>
@@ -123,7 +131,43 @@
                     </div>
                 </div>
 
+                <!-- Right Sidebar Actions -->
                 <div class="md:col-span-3 space-y-4">
+
+                    <!-- 2. Display-Only Rating Card -->
+                    <div
+                        class="bg-zinc-900/40 border border-zinc-900 p-5 rounded-xl space-y-3 shadow-xl backdrop-blur-sm text-xs">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-xs font-black text-white uppercase tracking-widest flex items-center">
+                                    <i class="fa-solid fa-star mr-2 text-yellow-500"></i> Audience Score
+                                </h3>
+                                <p class="text-[11px] text-gray-500 mt-0.5">Based on user ratings</p>
+                            </div>
+
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-white">
+                                    {{ $movie->ratings_avg_rating ? number_format($movie->ratings_avg_rating, 1) : '0.0' }}
+                                </span>
+                                <span class="text-[10px] text-gray-500">/ 5</span>
+                            </div>
+                        </div>
+
+                        <!-- Star Representation -->
+                        <div class="pt-2 border-t border-zinc-800/80 flex items-center justify-between text-yellow-500">
+                            <div class="flex items-center gap-1">
+                                @php $avg = round($movie->ratings_avg_rating ?? 0); @endphp
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <i class="fa-{{ $i <= $avg ? 'solid' : 'regular' }} fa-star text-xs"></i>
+                                @endfor
+                            </div>
+                            <span class="text-[10px] text-gray-400 font-medium">
+                                {{ $movie->ratings_count ?? 0 }} {{ Str::plural('vote', $movie->ratings_count ?? 0) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Streaming Status Card -->
                     <div
                         class="bg-zinc-900/40 border border-zinc-900 p-5 rounded-xl space-y-4 shadow-xl backdrop-blur-sm text-xs">
                         <div class="space-y-1">
@@ -147,6 +191,7 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
 
             </div>

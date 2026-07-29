@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class SubscriptionRequest extends FormRequest
+class StoreRatingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +23,7 @@ class SubscriptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'plan_id' => $request->input('plan_id'),
-            // 'user_id'=> Auth::user()->id,
-            // 'active' => true,
-            // 'start_date' => now(),
-            // 'end_date' => now()->addDays($request->plan_duration),
+            'rating' => ['required', 'numeric', 'min:0.5', 'max:5.0']
         ];
     }
 }
