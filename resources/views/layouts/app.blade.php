@@ -27,7 +27,7 @@
                     <a href="{{ route('dashboard') }}" class="text-white transition hover:text-gray-300">Home</a>
                     {{-- <a href="#" class="transition hover:text-white">Series</a> --}}
                     <a href="{{ route('movies.index') }}" class="transition hover:text-white">Movies</a>
-                    <a href="#" class="transition hover:text-white">New & Popular</a>
+                    <a href="{{ route('crews.index') }}" class="transition hover:text-white">Casts & Crew</a>
                     <a href="#" class="transition hover:text-white">My List</a>
                     {{-- <a href="{{ route('subscriptions.index') }}" class="transition hover:text-white">Subscriptions</a> --}}
                 </div>

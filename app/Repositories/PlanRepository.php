@@ -11,4 +11,6 @@ interface PlanRepository
     public function getPaginatedPlans(int $perPage): LengthAwarePaginator;
 
     public function getPlanDetails(Plan $plan): Plan;
+
+    public function getPlanByName();
 }

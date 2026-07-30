@@ -20,6 +20,7 @@ class MoviesTable
             ->columns([
                 ImageColumn::make('poster')
                     ->label('Poster')
+                    ->disk('public')
                     ->circular()
                     ->height(50)
                     ->width(50)

@@ -73,6 +73,9 @@ class MovieForm
                                 ->numeric(),
                             FileUpload::make('poster')
                                 ->image()
+                                ->disk('public') // Menyimpan file ke storage/app/public
+                                ->directory('movies/poster') // Menyimpan di subfolder storage/app/public/crews/photos
+                                ->visibility('public')
                                 ->required(),
                         ]),
                     Step::make('Link Streaming')

@@ -2,11 +2,11 @@
 
 namespace App\Livewire;
 
-use App\Services\MovieService;
+use App\Services\CrewService;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class MovieCard extends Component
+class CrewList extends Component
 {
     use WithPagination;
 
@@ -16,10 +16,11 @@ class MovieCard extends Component
     {
         $this->resetPage();
     }
-    public function render(MovieService $movieService)
+
+    public function render(CrewService $crewService)
     {
-        return view('livewire.movie-card', [
-            'movies' => $movieService->getMovies($this->search)
+        return view('livewire.crew-list', [
+            'crews' => $crewService->getAllCrews($this->search)
         ]);
     }
 }

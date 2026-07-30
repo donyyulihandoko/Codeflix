@@ -19,6 +19,7 @@ class CrewsTable
             ->columns([
                 ImageColumn::make('photo')
                     ->label('Photo')
+                    ->disk('public')
                     ->circular()
                     ->size(50),
                 TextColumn::make('name')

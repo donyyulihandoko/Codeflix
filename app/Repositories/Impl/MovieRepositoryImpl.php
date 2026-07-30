@@ -71,9 +71,26 @@ class MovieRepositoryImpl implements MovieRepository
     {
         return Movie::query()
             ->withAvg('ratings', 'rating')
-            ->when($search, function($query, $search) {
-                    return $query->where('title', 'like', "%{$search}%");
-            })->latest()
+            ->when($search, function($query, $search)
+            {
+                    return $query->where(function ($q) use($search) {
+                            // cari berdasarkan judul filem
+                        $q->where('title', 'like' , "%{$search}%")
+                                // cari berdasarkan directors
+                            ->orWhereHas('directors', function ($crewQuery) use($search) {
+                                $crewQuery->where('name', 'like' , "%{$search}%");
+                            })
+                                // cari berdasarkan writers
+                            ->orWhereHas('writers', function ($crewQuery) use($search) {
+                                $crewQuery->where('name', 'like' , "%{$search}%");
+                            })
+                               // cari berdasarkan writers
+                            ->orWhereHas('stars', function ($crewQuery) use($search) {
+                                $crewQuery->where('name', 'like' , "%{$search}%");
+                            });
+                    });
+            })
+                ->latest()
                 ->paginate(18)
                 ->withQueryString();
     }
