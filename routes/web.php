@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CrewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\ProfileController;
@@ -40,6 +41,13 @@ Route::controller(RatingController::class)->middleware(['auth', 'verified', 'sub
     ->group(function(){
     Route::post('ratings/{movie}', 'store')->name('ratings.store');
 });
+
+Route::controller(CrewController::class)->middleware(['auth', 'verified'])
+    ->group(function(){
+        Route::get('/crews', 'index')->name('crews.index');
+        Route::get('/crews/{crew}', 'show')->name('crews.show');
+    });
+
 
 Route::fallback(function(){
     return view('errors.fallback');

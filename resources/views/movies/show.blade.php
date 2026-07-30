@@ -82,25 +82,66 @@
                     </div>
 
                     <div class="space-y-3 pt-2">
-                        <div class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5">
-                            <span
-                                class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Director</span>
-                            <span
-                                class="col-span-9 text-gray-350 hover:text-red-400 cursor-pointer transition">{{ $movie->directors->pluck('name')->implode(', ') }}</span>
+                        <div
+                            class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5 items-center">
+                            <!-- Label / Header -->
+                            <span class="col-span-3 text-zinc-500 font-semibold uppercase tracking-wider text-[11px]">
+                                Director
+                            </span>
+
+                            <!-- Value List (Interactive Link) -->
+                            <div class="col-span-9 flex flex-wrap gap-x-1 text-zinc-300">
+                                @forelse ($movie->directors as $director)
+                                    <a href="{{ route('crews.show', $director) }}"
+                                        class="hover:text-blue-500 hover:underline transition-colors duration-150">
+                                        {{ $director->name }}
+                                    </a>{{ !$loop->last ? ',' : '' }}
+                                @empty
+                                    <span class="text-zinc-600 font-normal italic">-</span>
+                                @endforelse
+                            </div>
                         </div>
 
-                        <div class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5">
-                            <span
-                                class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Writers</span>
-                            <span
-                                class="col-span-9 text-gray-350">{{ $movie->writers->pluck('name')->implode(', ') }}</span>
+                        <div
+                            class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5 items-center">
+                            <!-- Label / Header -->
+                            <span class="col-span-3 text-zinc-500 font-semibold uppercase tracking-wider text-[11px]">
+                                WRITERS
+                            </span>
+
+                            <!-- Value List (Interactive Link) -->
+                            <div class="col-span-9 flex flex-wrap gap-x-1 text-zinc-300">
+                                @forelse ($movie->writers as $writer)
+                                    <a href="{{ route('crews.show', $writer) }}"
+                                        class="hover:text-blue-500 hover:underline transition-colors duration-150">
+                                        {{ $writer->name }}
+                                    </a>{{ !$loop->last ? ',' : '' }}
+                                @empty
+                                    <span class="text-zinc-600 font-normal italic">-</span>
+                                @endforelse
+                            </div>
                         </div>
-                        <div class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5">
-                            <span
-                                class="col-span-3 text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Stars</span>
-                            <span
-                                class="col-span-9 text-red-500/90 font-medium">{{ $movie->stars->pluck('name')->implode(', ') }}</span>
+
+                        <div
+                            class="text-xs sm:text-sm grid grid-cols-12 border-b border-zinc-900/60 pb-2.5 items-center">
+                            <!-- Label / Header -->
+                            <span class="col-span-3 text-zinc-500 font-semibold uppercase tracking-wider text-[11px]">
+                                STARS
+                            </span>
+
+                            <!-- Value List (Interactive Link) -->
+                            <div class="col-span-9 flex flex-wrap gap-x-1 text-zinc-300">
+                                @forelse ($movie->stars as $star)
+                                    <a href="{{ route('crews.show', $star) }}"
+                                        class="hover:text-blue-500 hover:underline text-red-500/90 transition-colors duration-150">
+                                        {{ $star->name }}
+                                    </a>{{ !$loop->last ? ',' : '' }}
+                                @empty
+                                    <span class="text-zinc-600 font-normal italic">-</span>
+                                @endforelse
+                            </div>
                         </div>
+
                     </div>
 
                     <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">

@@ -15,6 +15,7 @@ class PlanRepositoryImpl implements PlanRepository
     {
         return Plan::query()
             ->select(['id', 'title', 'slug', 'price', 'duration', 'resolution', 'max_devices'])
+
             ->orderBy('price', 'asc')
             ->paginate($perPage);
     }
@@ -24,4 +25,12 @@ class PlanRepositoryImpl implements PlanRepository
     {
         return $plan;
     }
+
+    #[Override]
+    public function getPlanByName()
+    {
+        return Plan::query()
+            ->get('title');
+    }
+
 }

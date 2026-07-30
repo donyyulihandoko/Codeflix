@@ -83,24 +83,6 @@
                             @endif
                         </div>
 
-                        <!-- Alert Pesan Sukses -->
-                        {{-- @if (session('success'))
-                            <div
-                                class="p-3 bg-green-500/10 border border-green-500/20 text-green-400 text-xs rounded-lg flex items-center gap-2">
-                                <i class="fa-solid fa-circle-check"></i>
-                                <span>{{ session('success') }}</span>
-                            </div>
-                        @endif --}}
-
-                        <!-- Alert Error Validasi -->
-                        {{-- @error('rating')
-                            <div
-                                class="p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-lg flex items-center gap-2">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                <span>{{ $message }}</span>
-                            </div>
-                        @enderror --}}
-
                         <!-- Form HTML Murni -->
                         <form action="{{ route('ratings.store', $movie) }}" method="POST" class="space-y-4">
                             @csrf
@@ -147,7 +129,7 @@
                     </div>
 
 
-                    <!-- Panel Status Premium -->
+                    <!-- Panel Status Subscription Plan -->
                     <div
                         class="bg-zinc-900/40 border border-zinc-900/80 p-5 rounded-xl space-y-4 shadow-xl backdrop-blur-sm text-xs">
                         <div class="space-y-1">
@@ -155,10 +137,19 @@
                                 <h3 class="text-xs font-black text-white uppercase tracking-widest flex items-center">
                                     <i class="fa-solid fa-crown mr-2 text-yellow-500"></i> Subscription Active
                                 </h3>
-                                <span
-                                    class="bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-0.5 text-[9px] font-extrabold rounded uppercase">
-                                    Premium
-                                </span>
+
+                                @if ($subscription->plan->title === 'Premium' || $subscription->plan->title === 'Gold')
+                                    <span
+                                        class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2 py-0.5 text-[9px] font-extrabold rounded uppercase">
+                                        {{ $subscription->plan->title }}
+                                    </span>
+                                @else
+                                    <span
+                                        class="bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-0.5 text-[9px] font-extrabold rounded uppercase">
+                                        {{ $subscription->plan->title }}
+                                    </span>
+                                @endif
+
                             </div>
                             <p class="text-[11px] text-gray-500">
                                 Logged in as <span class="text-zinc-300 font-medium">{{ auth()->user()->name }}</span>.

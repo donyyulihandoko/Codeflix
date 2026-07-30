@@ -52,7 +52,9 @@ class CrewForm
                     FileUpload::make('photo')
                         ->label('Photo')
                         ->image()
-                        ->directory('crews/photos')
+                        ->disk('public') // Menyimpan file ke storage/app/public
+                        ->directory('crews/photos') // Menyimpan di subfolder storage/app/public/crews/photos
+                        ->visibility('public')
                         ->maxSize(1024) // Maksimal ukuran file dalam kilobytes (1MB)
                         ->required(),
 

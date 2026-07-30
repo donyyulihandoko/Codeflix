@@ -2,9 +2,9 @@
 
 namespace App\Services\Impl;
 
+use App\Models\Subscription;
 use App\Services\UserService;
 use Override;
-use App\Models\User;
 use App\Repositories\UserRepository;
 
 class UserServiceImpl implements UserService
@@ -19,5 +19,11 @@ class UserServiceImpl implements UserService
     public function hasSubscriptionPlan(int $userId): bool
     {
         return $this->userRepository->hasSubscriptionPlan($userId);
+    }
+
+    #[Override]
+    public function getCurrentUserSubscriptionPlan(int $userId): Subscription
+    {
+        return $this->userRepository->getCurrentUserSubscriptionPlan($userId);
     }
 }

@@ -27,4 +27,9 @@ class PlanServiceImpl implements PlanService
     {
         return $this->planRepository->getPlanDetails($plan);
     }
+
+    public function getPlanByName()
+    {
+        return $this->planRepository->getPlanByName();
+    }
 }

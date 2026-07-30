@@ -25,7 +25,8 @@
                     <i class="fa-solid fa-magnifying-glass text-gray-500 text-xs"></i>
                 </span>
 
-                <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari judul film..."
+                <input wire:model.live.debounce.300ms="search" type="text"
+                    placeholder="Cari judul film, sutradara, atau pemain..."
                     class="w-full bg-zinc-900/80 border border-zinc-800 text-gray-200 placeholder-gray-500 text-xs rounded-lg pl-9 pr-8 py-2 focus:outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600 transition duration-200">
 
                 <div wire:loading wire:target="search" class="absolute inset-y-0 right-0 flex items-center pr-3">
