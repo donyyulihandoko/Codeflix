@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'email', 'password'])]
@@ -61,5 +62,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return $this->hasMany(Rating::class, 'user_id', 'id');
     }
 
-
+    public function myLists(): HasMany
+    {
+        return $this->hasMany(MyList::class, 'user_id');
+    }
 }

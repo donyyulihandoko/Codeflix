@@ -15,7 +15,10 @@ class DashboardController extends Controller
     public function index(): Response
     {
         return response()->view('dashboard', [
-            'heroMovie' => $this->movieService->getHeroMovie()
+            'heroMovie' => $this->movieService->getHeroMovie(),
+            'newReleaseMovies' => $this->movieService->getNewReleaseMovies(6),
+            'topRateMovies' => $this->movieService->getTopRateMovies(6),
+            'trendingMovies' => $this->movieService->getTredingMovies(6)
         ]);
     }
 }

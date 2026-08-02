@@ -5,6 +5,7 @@ return [
     App\Providers\CrewServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\MovieServiceProvider::class,
+    App\Providers\MyListServiceProvider::class,
     App\Providers\PlanServiceProvider::class,
     App\Providers\RatingServiceProvider::class,
     App\Providers\SubscriptionServiceProvider::class,

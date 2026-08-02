@@ -1,7 +1,7 @@
 <div>
-    @if ($trendingMovie && $trendingMovie->isNotEmpty())
+    @if ($trendingMovies && $trendingMovies->isNotEmpty())
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-5 gap-y-8">
-            @foreach ($trendingMovie as $movie)
+            @foreach ($trendingMovies as $movie)
                 <a href="{{ route('movies.show', $movie) }}"
                     class="group relative block rounded-lg overflow-hidden bg-zinc-900 shadow-md aspect-[2/3] transition duration-300 hover:scale-105 hover:z-30 border border-zinc-900 hover:border-zinc-700">
 
