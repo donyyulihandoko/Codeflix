@@ -51,9 +51,9 @@ Route::controller(CrewController::class)->middleware(['auth', 'verified'])
 
 Route::controller(MyListController::class)->middleware(['auth', 'verified'])
     ->group(function(){
-        Route::get('/mylists', 'index')->name('mylists.index');
-        Route::post('/mylists/{movie}', 'store')->name('mylists.store');
-        Route::delete('mylists/{myList}', 'destroy')->name('mylists.destroy');
+        Route::get('/my-lists', 'index')->name('mylists.index');
+        Route::post('/my-lists/{movie}', 'store')->name('mylists.store');
+        Route::delete('my-lists/{myList}', 'destroy')->name('mylists.destroy');
 });
 
 
