@@ -78,4 +78,9 @@ class Movie extends Model
     {
         return $this->hasMany(Rating::class, 'movie_id', 'id');
     }
+
+    public function myLists(): HasMany
+    {
+        return $this->hasMany(MyList::class, 'movie_id');
+    }
 }

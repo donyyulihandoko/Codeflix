@@ -3,6 +3,7 @@
 use App\Http\Controllers\CrewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\MyListController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\RatingController;
@@ -46,7 +47,16 @@ Route::controller(CrewController::class)->middleware(['auth', 'verified'])
     ->group(function(){
         Route::get('/crews', 'index')->name('crews.index');
         Route::get('/crews/{crew}', 'show')->name('crews.show');
-    });
+});
+
+Route::controller(MyListController::class)->middleware(['auth', 'verified'])
+    ->group(function(){
+        Route::get('/mylists', 'index')->name('mylists.index');
+        Route::post('/mylists/{movie}', 'store')->name('mylists.store');
+        Route::delete('mylists/{myList}', 'destroy')->name('mylists.destroy');
+});
+
+
 
 
 Route::fallback(function(){

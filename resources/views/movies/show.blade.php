@@ -220,11 +220,15 @@
                         </div>
 
                         <div class="pt-2 border-t border-zinc-800 space-y-2">
-                            <button
-                                class="w-full flex items-center justify-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-gray-300 font-bold p-2.5 rounded-lg border border-zinc-800 transition">
-                                <i class="fa-solid fa-bookmark text-gray-400 text-[11px]"></i>
-                                <span>Add to My List</span>
-                            </button>
+                            <form action="{{ route('mylists.store', $movie) }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="w-full flex items-center justify-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-gray-300 font-bold p-2.5 rounded-lg border border-zinc-800 transition">
+                                    <i class="fa-solid fa-bookmark text-gray-400 text-[11px]"></i>
+                                    <span>Add to My List</span>
+                                </button>
+                            </form>
+
                             <button
                                 class="w-full flex items-center justify-center space-x-2 bg-zinc-900/10 hover:bg-zinc-900 text-gray-500 hover:text-red-400 font-semibold p-2.5 rounded-lg transition text-[11px]">
                                 <i class="fa-solid fa-circle-info"></i>

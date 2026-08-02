@@ -86,7 +86,7 @@
                 </a>
             </div>
 
-            <x-trending-movie-list />
+            <x-trending-movies :trendingMovies="$trendingMovies" />
         </section>
 
         <!-- 2. Section: Top Rated Movies -->
@@ -114,7 +114,7 @@
                 </a>
             </div>
 
-            <x-top-rate-movie-list />
+            <x-top-rate-movies :topRateMovies="$topRateMovies" />
         </section>
 
         <!-- 3. Section: New Release Movies -->
@@ -142,7 +142,7 @@
                 </a>
             </div>
 
-            <x-new-release-movie-list />
+            <x-new-release-movies :newReleaseMovies="$newReleaseMovies" />
         </section>
 
     </div>

@@ -28,7 +28,7 @@
                     {{-- <a href="#" class="transition hover:text-white">Series</a> --}}
                     <a href="{{ route('movies.index') }}" class="transition hover:text-white">Movies</a>
                     <a href="{{ route('crews.index') }}" class="transition hover:text-white">Casts & Crew</a>
-                    <a href="#" class="transition hover:text-white">My List</a>
+                    <a href="{{ route('mylists.index') }}" class="transition hover:text-white">My List</a>
                     {{-- <a href="{{ route('subscriptions.index') }}" class="transition hover:text-white">Subscriptions</a> --}}
                 </div>
             </div>
@@ -91,6 +91,7 @@
         </footer>
     </div>
     <x-alert />
+    <x-confirm-delete />
     {{ $scripts ?? '' }}
 </body>
 
