@@ -21,9 +21,5 @@ class UserServiceImpl implements UserService
         return $this->userRepository->hasSubscriptionPlan($userId);
     }
 
-    #[Override]
-    public function getCurrentUserSubscriptionPlan(int $userId): Subscription
-    {
-        return $this->userRepository->getCurrentUserSubscriptionPlan($userId);
-    }
+
 }

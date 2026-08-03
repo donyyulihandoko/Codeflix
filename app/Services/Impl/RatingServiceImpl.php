@@ -29,4 +29,9 @@ class RatingServiceImpl implements RatingService
         return $this->ratingRepository->rateMovie($attribute, $value);
     }
 
+    public function getRatingMovieByUser(Movie $movie, User $user): ?Rating
+    {
+        return $this->ratingRepository->getRatingMovieByUser($user->id, $movie->id);
+    }
+
 }

@@ -32,4 +32,10 @@ class SubscriptionServiceImpl implements SubscriptionService
 
         return $this->subscriptionRepository->create($data);
     }
+
+    #[Override]
+    public function getCurrentSubscriptionPlan(User $user): Subscription
+    {
+            return $this->subscriptionRepository->getCurrentSubscriptionPlan($user->id);
+    }
 }

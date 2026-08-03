@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Movie;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Category;
 interface MovieService
 {
     // dashboard controller
@@ -24,4 +25,6 @@ interface MovieService
     public function showMovie(Movie $movie): Movie;
 
     public function watchMovie(Movie $movie): Movie;
+
+    public function getMoviesByCategory(Category $category, ?string $search = null): LengthAwarePaginator;
 }

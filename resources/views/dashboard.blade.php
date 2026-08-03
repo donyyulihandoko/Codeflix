@@ -59,7 +59,65 @@
         <div class="h-[15vh] bg-zinc-950"></div>
     @endif
 
-    <div class="px-4 sm:px-12 lg:px-20 pb-20 mt-12 sm:mt-20 relative z-20 space-y-16">
+    <!-- Content Container -->
+    <div class="px-4 sm:px-12 lg:px-20 pb-20 mt-8 relative z-20 space-y-12">
+
+        <!-- ========================================== -->
+        <!-- DROPDOWN FILTER KATEGORI (FIXED Z-INDEX)   -->
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <!-- DROPDOWN FILTER KATEGORI (3 KOLOM / CHUNK) -->
+        <!-- ========================================== -->
+        <div
+            class="relative z-30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-zinc-900/60 p-4 rounded-xl border border-zinc-800/80 backdrop-blur-md shadow-xl">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-red-600/10 border border-red-500/20 rounded-lg text-red-500">
+                    <i class="fa-solid fa-layer-group text-sm"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Jelajahi Genre</h3>
+                    <p class="text-xs text-zinc-400">Pilih kategori film favoritmu untuk mulai menonton</p>
+                </div>
+            </div>
+
+            <!-- Dropdown Menu dengan AlpineJS -->
+            <div class="relative min-w-[220px]" x-data="{ open: false }">
+                <button @click="open = !open" @click.away="open = false" type="button"
+                    class="w-full flex items-center justify-between space-x-3 bg-zinc-950 hover:bg-zinc-900 text-zinc-300 hover:text-white px-4 py-2.5 rounded-lg border border-zinc-800 hover:border-zinc-700 transition text-xs font-semibold shadow-sm">
+                    <span class="flex items-center gap-2 truncate">
+                        <i class="fa-solid fa-clapperboard text-red-500"></i>
+                        <span>Pilih Kategori / Genre</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-zinc-500 transition-transform duration-200"
+                        :class="{ 'rotate-180': open }"></i>
+                </button>
+
+                <!-- Dropdown Panel (Mega Menu 3 Kolom dengan Chunk) -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="transform opacity-100 scale-100"
+                    x-transition:leave-end="transform opacity-0 scale-95"
+                    class="absolute right-0 mt-2 w-full sm:w-[540px] bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl p-4 z-50 grid grid-cols-1 sm:grid-cols-3 gap-3"
+                    style="display: none;">
+
+                    @foreach ($categories as $chunk)
+                        <div class="space-y-1">
+                            @foreach ($chunk as $category)
+                                <a href="{{ route('categories.show', $category) }}"
+                                    class="flex items-center justify-between px-3 py-2 text-xs text-zinc-300 hover:text-white hover:bg-red-600/10 rounded-xl transition group">
+                                    <span
+                                        class="font-medium truncate group-hover:translate-x-1 transition-transform duration-150">
+                                        {{ $category->title }}
+                                    </span>
+                                </a>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
 
         <!-- 1. Section: Trending Movies -->
         <section class="space-y-6">
@@ -146,7 +204,5 @@
         </section>
 
     </div>
-
-
 
 </x-app-layout>

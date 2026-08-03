@@ -20,17 +20,4 @@ class UserRepositoryImpl implements UserRepository
             ->exists();
     }
 
-    #[Override]
-    public function getCurrentUserSubscriptionPlan(int $userId): Subscription
-    {
-        return User::query()
-            ->findOrFail($userId)
-            ->subscriptions()
-            ->where('active', true)
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->with('plan')
-            ->latest()
-            ->first();
-    }
 }
