@@ -17,10 +17,25 @@
                     </a>
                 </div>
 
-                <!-- Iframe Video Player Utama -->
-                <iframe id="video-player" src="{{ $movie->url_1080 }}" class="w-full h-full shadow-inner" allowfullscreen
-                    allow="autoplay; encrypted-media; picture-in-picture">
-                </iframe>
+                @if ($subscription->plan->resolution === '720p')
+                    <!-- Iframe Video Player Utama -->
+                    <iframe id="video-player" src="{{ $movie->url_720 }}" class="w-full h-full shadow-inner"
+                        allowfullscreen allow="autoplay; encrypted-media; picture-in-picture">
+                    </iframe>
+                @elseif ($subscription->plan->resolution === '1080p')
+                    <iframe id="video-player" src="{{ $movie->url_1080 }}" class="w-full h-full shadow-inner"
+                        allowfullscreen allow="autoplay; encrypted-media; picture-in-picture">
+                    </iframe>
+                @elseif ($subscription->plan->resolution === '4k')
+                    <iframe id="video-player" src="{{ $movie->url_4k }}" class="w-full h-full shadow-inner"
+                        allowfullscreen allow="autoplay; encrypted-media; picture-in-picture">
+                    </iframe>
+                @else
+                    <iframe id="video-player" src="{{ $movie->url_720 }}" class="w-full h-full shadow-inner"
+                        allowfullscreen allow="autoplay; encrypted-media; picture-in-picture">
+                    </iframe>
+                @endif
+
             </div>
         </div>
 
@@ -72,13 +87,11 @@
                             </h3>
 
                             <!-- Menampilkan rating user saat ini (jika ada) -->
-                            @php
-                                $userRating = $movie->ratings->where('user_id', auth()->id())->first()?->rating;
-                            @endphp
+
                             @if ($userRating)
                                 <span
                                     class="text-[10px] bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 px-2 py-0.5 rounded font-bold">
-                                    Your Rating: {{ number_format($userRating, 1) }} ★
+                                    Your Rating: {{ number_format($userRating->rating, 1) }} ★
                                 </span>
                             @endif
                         </div>

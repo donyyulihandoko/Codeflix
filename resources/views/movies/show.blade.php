@@ -148,8 +148,15 @@
                         <div class="space-y-2">
                             <div>
                                 <span class="text-gray-550 block font-semibold mb-0.5">Genres:</span>
-                                <span
-                                    class="text-gray-300">{{ $movie->categories->pluck('title')->implode(', ') }}</span>
+                                @forelse ($movie->categories as $category)
+                                    <a href="{{ route('categories.show', $category) }}"
+                                        class="hover:text-blue-500 hover:underline transition-colors duration-150">
+                                        {{ $category->title }}
+                                    </a>{{ !$loop->last ? ',' : '' }}
+                                @empty
+                                    <span class="text-zinc-600 font-normal italic">-</span>
+                                @endforelse
+
                             </div>
                             <div>
                                 <span class="text-gray-550 block font-semibold mb-0.5">Audio Quality:</span>

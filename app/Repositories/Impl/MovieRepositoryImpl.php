@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Impl;
 
+use App\Models\Category;
 use App\Repositories\MovieRepository;
 use Override;
 use App\Models\Movie;
@@ -115,6 +116,40 @@ class MovieRepositoryImpl implements MovieRepository
         return Movie::query()
             ->ratings()
             ->avg('rating');
+    }
+
+    #[Override]
+    public function getMoviesByCategory(Category $category, ?string $search = null): LengthAwarePaginator
+    {
+        return Movie::query()
+            ->when($category, function($q, $category) {
+                $q->whereHas('categories', function ($query) use ($category) {
+                    $query->where('slug', $category->slug);
+                });
+            })
+            ->withAvg('ratings', 'rating')
+            ->when($search, function($query, $search)
+            {
+                    return $query->where(function ($q) use($search) {
+                            // cari berdasarkan judul filem
+                        $q->where('title', 'like' , "%{$search}%")
+                                // cari berdasarkan directors
+                            ->orWhereHas('directors', function ($crewQuery) use($search) {
+                                $crewQuery->where('name', 'like' , "%{$search}%");
+                            })
+                                // cari berdasarkan writers
+                            ->orWhereHas('writers', function ($crewQuery) use($search) {
+                                $crewQuery->where('name', 'like' , "%{$search}%");
+                            })
+                               // cari berdasarkan writers
+                            ->orWhereHas('stars', function ($crewQuery) use($search) {
+                                $crewQuery->where('name', 'like' , "%{$search}%");
+                            });
+                    });
+            })
+                ->latest()
+                ->paginate(18)
+                ->withQueryString();
     }
 
 }

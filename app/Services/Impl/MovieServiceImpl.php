@@ -8,6 +8,7 @@ use App\Models\Movie;
 use App\Repositories\MovieRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Category;
 
 class MovieServiceImpl implements MovieService
 {
@@ -62,5 +63,10 @@ class MovieServiceImpl implements MovieService
     public function watchMovie(Movie $movie): Movie
     {
         return $this->movieRepository->watchMovie($movie);
+    }
+
+    public function getMoviesByCategory(Category $category, ?string $search = null): LengthAwarePaginator
+    {
+        return $this->movieRepository->getMoviesByCategory($category, $search);
     }
 }

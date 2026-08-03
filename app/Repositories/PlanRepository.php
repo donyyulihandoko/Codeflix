@@ -13,4 +13,5 @@ interface PlanRepository
     public function getPlanDetails(Plan $plan): Plan;
 
     public function getPlanByName();
+
 }

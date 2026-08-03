@@ -2,6 +2,7 @@
 
 return [
     App\Providers\AppServiceProvider::class,
+    App\Providers\CategoryServiceProvider::class,
     App\Providers\CrewServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\MovieServiceProvider::class,

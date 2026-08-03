@@ -19,4 +19,17 @@ class SubscriptionRepositoryImpl implements SubscriptionRepository
                         ->create($data);
         });
     }
+
+    #[Override]
+    public function getCurrentSubscriptionPlan(int $userId): Subscription
+    {
+        return Subscription::query()
+            ->where('user_id', $userId)
+            ->where('active', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->with('plan')
+            ->latest()
+            ->first();
+    }
 }

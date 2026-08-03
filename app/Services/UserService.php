@@ -8,5 +8,4 @@ interface UserService
 {
     public function hasSubscriptionPlan(int $userId): bool;
 
-    public function getCurrentUserSubscriptionPlan(int $userId): Subscription;
 }

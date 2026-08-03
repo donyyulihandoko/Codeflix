@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CrewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MovieController;
@@ -55,6 +56,11 @@ Route::controller(MyListController::class)->middleware(['auth', 'verified'])
         Route::post('/my-lists/{movie}', 'store')->name('mylists.store');
         Route::delete('my-lists/{myList}', 'destroy')->name('mylists.destroy');
 });
+
+Route::controller(CategoryController::class)->middleware(['auth', 'verified'])
+    ->group(function(){
+        Route::get('/categories/{category}', 'show')->name('categories.show');
+    });
 
 
 

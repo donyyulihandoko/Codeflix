@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Category;
 use App\Models\Movie;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -28,4 +29,6 @@ interface MovieRepository
     public function watchMovie(Movie $movie): Movie;
 
     public function getAverageRating(): ?int;
+
+    public function getMoviesByCategory(Category $category, ?string $search = null): LengthAwarePaginator;
 }
