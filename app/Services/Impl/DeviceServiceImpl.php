@@ -83,4 +83,9 @@ class DeviceServiceImpl implements DeviceService
         return $this->deviceRepository->getAllUserDevices($user);
     }
 
+    public function getValidDevice()
+    {
+        return $this->deviceRepository->getValidDevice(Auth::user(), session('device_id'));
+    }
+
 }

@@ -38,6 +38,7 @@
     </div>
 
     {{ $scripts ?? '' }}
+    <x-alert />
 </body>
 
 </html>

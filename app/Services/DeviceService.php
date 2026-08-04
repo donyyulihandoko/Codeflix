@@ -15,4 +15,6 @@ interface DeviceService
     public function countUserDevice(User $user): int;
 
     public function getAllUserDevices(User $user): Collection;
+
+    public function getValidDevice();
 }

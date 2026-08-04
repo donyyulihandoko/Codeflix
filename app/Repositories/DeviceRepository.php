@@ -15,4 +15,6 @@ interface DeviceRepository
     public function countUserDevice(User $user): int;
 
     public function getAllUserDevices(User $user): Collection;
+
+    public function getValidDevice(User $user, string $id);
 }

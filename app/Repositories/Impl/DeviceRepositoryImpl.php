@@ -18,6 +18,9 @@ class DeviceRepositoryImpl implements DeviceRepository
 
     public function delete(Device $device): bool
     {
+        if (session('device_id') === $device->device_id) {
+        session()->forget('device_id');
+         }
         return $device->delete();
     }
 
@@ -30,6 +33,11 @@ class DeviceRepositoryImpl implements DeviceRepository
     public function getAllUserDevices(User $user): Collection
     {
         return $user->devices()->latest()->get();
+    }
+
+    public function getValidDevice(User $user, string $id)
+    {
+        return $user->devices()->where('device_id', $id)->exists();
     }
 
 }

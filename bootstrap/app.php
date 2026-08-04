@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
-use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\CheckDeviceSessionMiddleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,7 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append:[
-            AuthenticateSession::class
+            CheckDeviceSessionMiddleware::class
         ]);
         $middleware->alias([
             'subscribed' => CheckSubscriptionMiddleware::class,
