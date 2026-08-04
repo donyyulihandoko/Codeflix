@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckSubscriptionMiddleware;
+use App\Http\Middleware\DeviceLimitMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Database\QueryException;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Support\Facades\Auth;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -18,8 +20,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append:[
+            AuthenticateSession::class
+        ]);
         $middleware->alias([
-            'subscribed' => CheckSubscriptionMiddleware::class
+            'subscribed' => CheckSubscriptionMiddleware::class,
+            'device_limited' => DeviceLimitMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

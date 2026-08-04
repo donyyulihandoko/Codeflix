@@ -10,9 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
+use App\Services\DeviceService;
 
 class AuthenticatedSessionController extends Controller
 {
+
+    public function __construct(private DeviceService $deviceService)
+    {
+        //
+    }
+
     /**
      * Display the login view.
      */
@@ -28,14 +35,21 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        // 2. Proteksi Akses Admin (Cegah Admin Login dari Web Customer)
+        $user = $request->user();
+        if ($user->isAdmin()) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('filament.admin.auth.login')
+                ->with('error', 'Akses ditolak. Akun Admin silakan login melalui Panel Filament.');
+        }
+
         $request->session()->regenerate();
 
-        if($request->user()->isAdmin())
-        {
-            Session::flush();
-            return to_route('filament.admin.auth.login')
-                ->with('email', 'Akses ditolak. Akun Admin silakan login melalui Panel Filament.');
-        }
+        $deviceId = md5($request->userAgent() . $request->ip());
+        $this->deviceService->registerDevice($user, $deviceId);
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
