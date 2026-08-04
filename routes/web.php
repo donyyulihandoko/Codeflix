@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\RatingController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeviceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,7 +29,7 @@ Route::controller(MovieController::class)->middleware(['auth', 'verified'])
     ->group(function(){
     Route::get('/movies', 'index')->name('movies.index');
     Route::get('/movies/{movie:slug}', 'show')->name('movies.show');
-    Route::get('/movies/{movie:slug}/watch', 'watch')->name('movies.watch')->middleware(['subscribed']);
+    Route::get('/movies/{movie:slug}/watch', 'watch')->name('movies.watch')->middleware(['subscribed', 'device_limited']);
 });
 
 Route::controller(SubscriptionController::class)->middleware(['auth', 'verified'])
@@ -60,6 +61,12 @@ Route::controller(MyListController::class)->middleware(['auth', 'verified'])
 Route::controller(CategoryController::class)->middleware(['auth', 'verified'])
     ->group(function(){
         Route::get('/categories/{category}', 'show')->name('categories.show');
+    });
+
+Route::controller( DeviceController::class)->middleware(['auth', 'verified'])
+    ->group(function(){
+        Route::get('/devices', 'index')->name('devices.index');
+        Route::delete('/devices/{userDevice}', 'destroy')->name('devices.destroy');
     });
 
 
