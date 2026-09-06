@@ -8,6 +8,7 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\MovieServiceProvider::class,
     App\Providers\MyListServiceProvider::class,
+    App\Providers\PaymentServiceProvider::class,
     App\Providers\PlanServiceProvider::class,
     App\Providers\RatingServiceProvider::class,
     App\Providers\SubscriptionServiceProvider::class,

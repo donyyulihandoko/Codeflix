@@ -10,6 +10,7 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\RatingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -69,6 +70,17 @@ Route::controller( DeviceController::class)->middleware(['auth', 'verified'])
         Route::delete('/devices/{userDevice}', 'destroy')->name('devices.destroy');
     });
 
+// Route::controller(PaymentController::class)->middleware(['auth', 'verified'])
+//     ->group(function(){
+//         // Route::get('/payments', 'index')->name('payments.index');
+//         // Route::get('/payments/{payment}', 'show')->name('payments.show');
+//         Route::post('/payments', 'purchase')->name('payments.purchase');
+//     });
+
+Route::controller(PaymentController::class)->middleware(['auth'])
+    ->group(function(){
+        Route::post('/payments', 'purchase')->name('payments.purchase');
+    });
 
 
 

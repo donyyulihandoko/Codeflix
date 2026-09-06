@@ -92,6 +92,7 @@
     </div>
     <x-alert />
     <x-confirm-delete />
+    @stack('scripts')
     {{ $scripts ?? '' }}
 </body>
 
