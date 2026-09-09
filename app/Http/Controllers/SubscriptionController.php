@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Models\Plan;
 use App\Services\PlanService;
 use App\Services\SubscriptionService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Midtrans\Transaction;
 
 class SubscriptionController extends Controller
 {
@@ -24,7 +26,8 @@ class SubscriptionController extends Controller
     public function show(Plan $plan): Response
     {
         return response()->view('subscriptions.show', [
-            'plan' => $this->planService->getPlanDetails($plan)
+            'plan' => $this->planService->getPlanDetails($plan),
+
         ]);
     }
 

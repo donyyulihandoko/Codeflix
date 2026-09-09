@@ -13,11 +13,8 @@ class SubscriptionRepositoryImpl implements SubscriptionRepository
     #[Override]
     public function create(array $data): Subscription
     {
-        return DB::transaction(function() use ($data)
-        {
-            return Subscription::query()
+        return Subscription::query()
                         ->create($data);
-        });
     }
 
     #[Override]
