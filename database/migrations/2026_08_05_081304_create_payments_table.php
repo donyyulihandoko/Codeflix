@@ -14,28 +14,21 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
-            // Menggunakan cascadeOnDelete agar terintegrasi dengan baik
+            // Relasi ke User & Paket Langganan
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('plan_id')->constrained()->cascadeOnDelete();
 
-            $table->string('transaction_number')->unique();
-            $table->decimal('total_amount', 12, 2);
+            // Detail Transaksi
+            $table->string('transaction_number')->unique(); // ID Transaksi Unik (Contoh: PAY-20260906-12345)
+            $table->unsignedBigInteger('total_amount'); // Total Nominal Pembayaran
 
-            // Disesuaikan dengan payload callback asli Midtrans Snap
-            $table->enum('payment_status', [
-                'pending',
-                'settlement', // Status sukses utama Midtrans
-                'capture',    // Untuk kartu kredit
-                'success',
-                'cancel',
-                'deny',
-                'expire',
-                'failure'
-            ])->default('pending');
+            // Status Pembayaran Midtrans
+            // Status: pending, success, failed, expired, cancelled
+            $table->string('status')->default('pending');
 
+            // Snap Redirect URL / Token jika dibutuhkan untuk histori
             $table->string('midtrans_snap_token')->nullable();
-            $table->string('midtrans_booking_code')->nullable();
-            $table->string('midtrans_transaction_id')->nullable();
+            $table->string('payment_type')->nullable(); // Contoh: bank_transfer, gopay, credit_card
 
             $table->timestamps();
         });

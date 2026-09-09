@@ -5,9 +5,9 @@ use App\Models\Payment;
 
 interface PaymentRepository
 {
-    public function createPayment(array $data): Payment;
+    public function create(array $data): Payment;
 
-    // public function updatePaymentStatus(string $referenceNumber, string $status): bool;
+    public function updatePayment(Payment $payment, array $data): bool;
 
-    // public function getPaymentByReferenceNumber(string $referenceNumber): Payment;
+    public function getPaymentByTransactionNumber(string $transactionNumber): ?Payment;
 }

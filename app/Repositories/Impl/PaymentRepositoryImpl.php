@@ -3,16 +3,29 @@
 namespace App\Repositories\Impl;
 
 use App\Models\Payment;
-use Illuminate\Support\Facades\DB;
 use Override;
 
 class PaymentRepositoryImpl implements \App\Repositories\PaymentRepository
 {
     #[Override]
-    public function createPayment(array $data): Payment
+    public function create(array $data): Payment
     {
-        return DB::transaction(function() use($data){
-            return Payment::create($data);
-        });
+        return Payment::create($data);
     }
+
+    #[Override]
+    public function updatePayment(Payment $payment, array $data): bool
+    {
+        return $payment->update($data);
+    }
+
+    public function getPaymentByTransactionNumber(string $transactionNumber): ?Payment
+    {
+        return Payment::query()
+            ->with(['user', 'plan'])
+            ->where('transaction_number', $transactionNumber)
+            ->first();
+    }
+
+
 }

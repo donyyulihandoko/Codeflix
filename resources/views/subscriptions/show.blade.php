@@ -63,9 +63,8 @@
                             payment.</p>
                     </div>
 
-                    <form id="payment-form" action="#" class="space-y-4">
+                    <form>
                         @csrf
-
                         <div class="space-y-1.5">
                             <label class="text-[10px] font-black uppercase tracking-widest text-zinc-400 block">
                                 Subscriber Name
@@ -89,7 +88,7 @@
                                 confirmation.</span>
                         </div>
 
-                        <button type="submit" id="pay-button"
+                        <button type="button" id="pay-button"
                             class="block w-full px-4 py-4 mt-6 text-xs font-black tracking-widest text-center text-white uppercase transition duration-200 bg-red-600 shadow-lg hover:bg-red-700 rounded-xl shadow-red-950/40">
                             Proceed to Payment
                         </button>
@@ -103,67 +102,51 @@
     @push('scripts')
         <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
         </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const payButton = document.querySelector('#pay-button');
-
-                if (!payButton) return;
-
-                payButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    payButton.disabled = true;
-                    payButton.innerText = 'PROCESSING...';
-
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-
-                    fetch('/payments', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken
-                            },
-                            body: JSON.stringify({
-                                plan_id: {{ $plan->id }}
+        <script type="text/javascript">
+            const payButton = document.querySelector('#pay-button');
+            payButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                fetch('{{ route('payments.purchase', $plan) }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        // body: JSON.stringify({
+                        //     plan_id: '{{ $plan->id }}',
+                        //     amount: '{{ $plan->price }}'
+                        // })
+                    })
+                    // .then(alert('success'))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            window.snap.pay(data.midtrans_snap_token, {
+                                onSuccess: function(result) {
+                                    window.location.href = '{{ route('subscriptions.success') }}';
+                                },
+                                onPending: function(result) {
+                                    window.location.href = '/payment/pending';
+                                },
+                                onError: function(result) {
+                                    window.location.href = '/payment/error';
+                                },
+                                onClose: function() {
+                                    alert(
+                                        'You closed the payment window without completing the payment'
+                                    );
+                                }
                             })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response failed');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            payButton.disabled = false;
-                            payButton.innerText = 'PROCEED TO PAYMENT';
-
-                            if (data.status === 'success' && data.snap_token) {
-                                window.snap.pay(data.snap_token, {
-                                    onSuccess: function(result) {
-                                        window.location.href = '/subscription/success';
-                                    },
-                                    onPending: function(result) {
-                                        window.location.href = '/payment/pending';
-                                    },
-                                    onError: function(result) {
-                                        window.location.href = '/payment/error';
-                                    },
-                                    onClose: function() {
-                                        alert('You closed the payment popup window.');
-                                    }
-                                });
-                            } else {
-                                alert(data.message || 'Failed to initialize payment.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Payment Error:', error);
-                            payButton.disabled = false;
-                            payButton.innerText = 'PROCEED TO PAYMENT';
-                            alert('Something went wrong during payment initialization.');
-                        });
-                });
+                        } else {
+                            alert('Failed to initiate payment. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while processing your payment. Please try again.');
+                    });
             });
         </script>
     @endpush
+
 </x-app-layout>

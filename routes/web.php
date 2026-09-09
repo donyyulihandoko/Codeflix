@@ -70,16 +70,11 @@ Route::controller( DeviceController::class)->middleware(['auth', 'verified'])
         Route::delete('/devices/{userDevice}', 'destroy')->name('devices.destroy');
     });
 
-// Route::controller(PaymentController::class)->middleware(['auth', 'verified'])
-//     ->group(function(){
-//         // Route::get('/payments', 'index')->name('payments.index');
-//         // Route::get('/payments/{payment}', 'show')->name('payments.show');
-//         Route::post('/payments', 'purchase')->name('payments.purchase');
-//     });
+
 
 Route::controller(PaymentController::class)->middleware(['auth'])
     ->group(function(){
-        Route::post('/payments', 'purchase')->name('payments.purchase');
+        Route::post('/payments/{plan}', 'purchase')->name('payments.purchase');
     });
 
 

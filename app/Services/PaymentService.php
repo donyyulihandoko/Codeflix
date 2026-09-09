@@ -7,5 +7,9 @@ use App\Models\Plan;
 
 interface PaymentService
 {
-    public function purchasePlan(Plan $plan, int $amount): Payment;
+    public function purchase(Plan $plan): Payment;
+
+    public function getPaymentByTransactionNumber(string $transactionNumber): ?Payment;
+
+    public function updatePayment(Payment $payment, array $data): bool;
 }

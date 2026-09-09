@@ -17,7 +17,7 @@ class SubscriptionServiceImpl implements SubscriptionService
     }
 
     #[Override]
-    public function purchaseSubscription(User $user, Plan $plan): Subscription
+    public function createSubscription(User $user, Plan $plan): Subscription
     {
         $startDate = now();
         $endDate = $startDate->copy()->addDays((int) $plan->duration);
