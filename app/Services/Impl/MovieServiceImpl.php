@@ -25,24 +25,25 @@ class MovieServiceImpl implements MovieService
     }
 
     #[Override]
-    public function getTredingMovies(int $limit): Collection
+    public function getTredingMovies(int $limit = 6): Collection
     {
         return $this->movieRepository->getTrendingMovies($limit);
     }
 
-    public function getTopRateMovies(int $limit): Collection
+    #[Override]
+    public function getTopRateMovies(int $limit = 6): Collection
     {
         return $this->movieRepository->getTopRateMovies($limit);
     }
 
     #[Override]
-    public function getContinueWatching(int $limit): Collection
+    public function getContinueWatching(int $limit = 6): Collection
     {
             return $this->movieRepository->getContinueWatching($limit);
     }
 
     #[Override]
-    public function getNewReleaseMovies(int $limit): Collection
+    public function getNewReleaseMovies(int $limit = 6): Collection
     {
         return $this->movieRepository->getNewReleaseMovies($limit);
     }

@@ -31,11 +31,11 @@ class SubscriptionController extends Controller
         ]);
     }
 
-    public function purchase(Plan $plan): RedirectResponse
-    {
-        $this->subscriptionService->purchaseSubscription(Auth::user(), $plan);
-        return to_route('subscriptions.success');
-    }
+    // public function purchase(Plan $plan): RedirectResponse
+    // {
+    //     $this->subscriptionService->purchaseSubscription(Auth::user(), $plan);
+    //     return to_route('subscriptions.success');
+    // }
 
     public function success(): Response
     {

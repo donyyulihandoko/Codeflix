@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Override;
 use Tests\TestCase;
 
+
 class DashboardControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -17,6 +18,7 @@ class DashboardControllerTest extends TestCase
     {
         parent::setUp();
         $this->actingAs(User::factory()->is_member1()->create());
+        $this->withoutMiddleware(\App\Http\Middleware\CheckDeviceSessionMiddleware::class);
     }
 
     public function test_index_success(): void

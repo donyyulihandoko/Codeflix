@@ -18,7 +18,9 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'rating' => $this->faker->numberBetween(1, 5),
+            'movie_id' => \App\Models\Movie::factory(),
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }

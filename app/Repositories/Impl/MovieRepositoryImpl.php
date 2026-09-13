@@ -8,6 +8,7 @@ use Override;
 use App\Models\Movie;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Rating;
 
 class MovieRepositoryImpl implements MovieRepository
 {
@@ -22,7 +23,7 @@ class MovieRepositoryImpl implements MovieRepository
     }
 
     #[Override]
-    public function getTrendingMovies(int $limit): Collection
+    public function getTrendingMovies(int $limit = 6): Collection
     {
         return Movie::query()
             ->withAvg('ratings', 'rating')
@@ -32,12 +33,29 @@ class MovieRepositoryImpl implements MovieRepository
             ->get();
     }
 
-    public function getTopRateMovies(int $limit): Collection
+    // public function getTopRateMovies(int $limit = 6): Collection
+    // {
+    //     return Movie::query()
+    //         ->withAvg('ratings', 'rating')
+    //         ->withCount('ratings')
+    //         ->having('ratings_avg_rating', '>', 2)
+    //         ->orderByDesc('ratings_avg_rating')
+    //         ->orderByDesc('ratings_count')
+    //         ->take($limit)
+    //         ->get();
+    // }
+
+    public function getTopRateMovies(int $limit = 6): Collection
     {
         return Movie::query()
             ->withAvg('ratings', 'rating')
             ->withCount('ratings')
-            ->having('ratings_avg_rating', '>', 2)
+            ->whereIn('id', function ($query) {
+                $query->select('movie_id')
+                    ->from('ratings')
+                    ->groupBy('movie_id')
+                    ->havingRaw('AVG(rating) > ?', [2]);
+            })
             ->orderByDesc('ratings_avg_rating')
             ->orderByDesc('ratings_count')
             ->take($limit)
@@ -45,7 +63,7 @@ class MovieRepositoryImpl implements MovieRepository
     }
 
     #[Override]
-    public function getContinueWatching(int $limit): Collection
+    public function getContinueWatching(int $limit = 6): Collection
     {
         return Movie::query()
             ->withAvg('ratings', 'rating')
@@ -55,7 +73,7 @@ class MovieRepositoryImpl implements MovieRepository
             ->get();
     }
 
-    public function getNewReleaseMovies(int $limit): Collection
+    public function getNewReleaseMovies(int $limit = 6): Collection
     {
         return Movie::query()
             ->withAvg('ratings', 'rating')
@@ -111,12 +129,21 @@ class MovieRepositoryImpl implements MovieRepository
         return $movie->load(['ratings']);
     }
 
-    public function getAverageRating(): ?int
-    {
-        return Movie::query()
-            ->ratings()
-            ->avg('rating');
-    }
+    // public function getAverageRating(): ?float
+    // {
+    //     return Movie::query()
+    //         ->ratings()
+    //         ->avg('rating');
+    // }
+
+
+    // #[Override]
+    // public function getAverageRating(): ?float
+    // {
+    //     $avg = Rating::query()->avg('rating');
+
+    //     return $avg !== null ? (float) $avg : null;
+    // }
 
     #[Override]
     public function getMoviesByCategory(Category $category, ?string $search = null): LengthAwarePaginator

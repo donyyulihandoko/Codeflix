@@ -49,4 +49,23 @@ class SubscriptionRepositoryTest extends TestCase
         ]);
     }
 
+    public function test_get_current_subscription_plan(): void
+    {
+        $user = User::factory()->is_member1()->create();
+        $plan = Plan::factory()->create();
+
+        $subscription = $this->subscriptionRepository->create([
+            'plan_id' => $plan->id,
+            'user_id' => $user->id,
+            'active' => true,
+            'start_date' => now(),
+            'end_date' => now()->addDays(30),
+        ]);
+
+        $currentSubscription = $this->subscriptionRepository->getCurrentSubscriptionPlan($user->id);
+
+        $this->assertNotNull($currentSubscription);
+        $this->assertEquals($subscription->id, $currentSubscription->id);
+    }
+
 }

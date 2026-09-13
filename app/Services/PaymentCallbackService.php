@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-interface MidtransService
+interface PaymentCallbackService
 {
     public function handleCallbackPayment(array $payload);
 }

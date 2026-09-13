@@ -61,7 +61,7 @@ class PaymentServiceImpl implements PaymentService
         return 'PAY-' . date('Ymd') . '-' . strtoupper(Str::random(6));
     }
 
-    private function generateSnapToken(array $data)
+    protected function generateSnapToken(array $data)
     {
         Config::$serverKey = config('midtrans.server_key');
         Config::$isProduction = config('midtrans.is_production', false);

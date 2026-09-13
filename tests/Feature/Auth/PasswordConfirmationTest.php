@@ -5,10 +5,20 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Services\DeviceService;
+use Mockery\MockInterface;
 
 class PasswordConfirmationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->mock(DeviceService::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getValidDevice')->andReturn(true);
+        });
+    }
 
     public function test_confirm_password_screen_can_be_rendered(): void
     {

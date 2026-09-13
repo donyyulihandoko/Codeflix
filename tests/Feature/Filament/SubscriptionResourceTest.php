@@ -14,6 +14,7 @@ use App\Models\Plan;
 use Filament\Actions\DeleteAction;
 use Tests\TestCase;
 use Filament\Actions\Testing\TestAction;
+
 class SubscriptionResourceTest extends TestCase
 {
     use RefreshDatabase;
@@ -107,7 +108,7 @@ class SubscriptionResourceTest extends TestCase
             ->assertCanNotSeeTableRecords($subscriptions);
     }
 
-    public function test_can_delete_a_membership() :void
+    public function test_can_delete_a_subscription() :void
     {
         $subscriptions = Subscription::factory()->create();
 

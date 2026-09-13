@@ -9,6 +9,7 @@ return [
     App\Providers\MidtransServiceProvider::class,
     App\Providers\MovieServiceProvider::class,
     App\Providers\MyListServiceProvider::class,
+    App\Providers\PaymentCallbackServiceProvider::class,
     App\Providers\PaymentServiceProvider::class,
     App\Providers\PlanServiceProvider::class,
     App\Providers\RatingServiceProvider::class,

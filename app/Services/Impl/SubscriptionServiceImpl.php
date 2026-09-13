@@ -2,7 +2,6 @@
 
 namespace App\Services\Impl;
 
-use App\Models\Plan;
 use App\Models\Subscription;
 use App\Repositories\SubscriptionRepository;
 use App\Services\SubscriptionService;
@@ -16,22 +15,23 @@ class SubscriptionServiceImpl implements SubscriptionService
         //
     }
 
-    #[Override]
-    public function createSubscription(User $user, Plan $plan): Subscription
-    {
-        $startDate = now();
-        $endDate = $startDate->copy()->addDays((int) $plan->duration);
+    // sudah melalui payment gateway
+    // #[Override]
+    // public function createSubscription(User $user, Plan $plan): Subscription
+    // {
+    //     $startDate = now();
+    //     $endDate = $startDate->copy()->addDays((int) $plan->duration);
 
-        $data = [
-            'plan_id' => $plan->id,
-            'user_id'=> $user->id,
-            'active' => true,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-        ];
+    //     $data = [
+    //         'plan_id' => $plan->id,
+    //         'user_id'=> $user->id,
+    //         'active' => true,
+    //         'start_date' => $startDate,
+    //         'end_date' => $endDate,
+    //     ];
 
-        return $this->subscriptionRepository->create($data);
-    }
+    //     return $this->subscriptionRepository->create($data);
+    // }
 
     #[Override]
     public function getCurrentSubscriptionPlan(User $user): Subscription
