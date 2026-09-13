@@ -5,10 +5,20 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Mockery\MockInterface;
+use App\Services\DeviceService;
 
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->mock(DeviceService::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getValidDevice')->andReturn(true);
+        });
+    }
 
     public function test_profile_page_is_displayed(): void
     {

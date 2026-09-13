@@ -8,10 +8,21 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
+use App\Services\DeviceService;
+use Mockery\MockInterface;
 
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->mock(DeviceService::class, function (MockInterface $mock) {
+            $mock->shouldReceive('getValidDevice')->andReturn(true);
+        });
+    }
+
 
     public function test_email_verification_screen_can_be_rendered(): void
     {

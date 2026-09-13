@@ -38,7 +38,7 @@ Route::controller(SubscriptionController::class)->middleware(['auth', 'verified'
     Route::get('/subscriptions', 'index')->name('subscriptions.index');
     Route::get('/subscriptions/success', 'success' )->name('subscriptions.success')->middleware(['subscribed']);
     Route::get('/subscriptions/{plan}', 'show')->name('subscriptions.show');
-    Route::post('subscriptions/{plan}/purchase', 'purchase')->name('subscriptions.purchase');
+    // Route::post('subscriptions/{plan}/purchase', 'purchase')->name('subscriptions.purchase');
 });
 
 Route::controller(RatingController::class)->middleware(['auth', 'verified', 'subscribed'])

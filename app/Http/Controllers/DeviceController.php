@@ -33,7 +33,11 @@ class DeviceController extends Controller
 
     public function destroy(Device $userDevice): RedirectResponse
     {
-        $this->deviceService->removeDevice($userDevice);
-        return redirect()->back()->with('success', 'Perangkat berhasil dihapus. Kuota menonton kamu sudah diperbarui.');
+        try {
+            $this->deviceService->removeDevice($userDevice);
+            return redirect()->back()->with('success', 'Perangkat berhasil dihapus. Kuota menonton kamu sudah diperbarui.');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Something went wrong on our end. Contact support if the issue persists.');
+        }
     }
 }

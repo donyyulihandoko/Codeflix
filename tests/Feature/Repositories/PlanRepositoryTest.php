@@ -5,13 +5,14 @@ namespace Tests\Feature\Repositories;
 use App\Models\Plan;
 use App\Repositories\PlanRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Override;
 use Tests\TestCase;
 
 class PlanRepositoryTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     private PlanRepository $planRepository;
 
@@ -42,6 +43,14 @@ class PlanRepositoryTest extends TestCase
         $result = $this->planRepository->getPlanDetails($plan);
         $this->assertNotNull($result);
         $this->assertEquals($plan->title, $result->title);
+    }
+
+    public function test_get_plan_by_name(): void
+    {
+        Plan::factory(5)->create();
+        $result = $this->planRepository->getPlanByName();
+        $this->assertNotNull($result);
+        $this->assertCount(5, $result);
     }
 
 

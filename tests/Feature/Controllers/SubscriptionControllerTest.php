@@ -3,17 +3,32 @@
 namespace Tests\Feature\Controllers;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\User;
 use Tests\TestCase;
+use App\Http\Middleware\CheckDeviceSessionMiddleware;
 
 class SubscriptionControllerTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
+    use RefreshDatabase;
+
+    protected function setUp(): void
     {
-        $response = $this->get('/');
+        parent::setUp();
+        $this->withoutMiddleware(CheckDeviceSessionMiddleware::class);
+        $this->actingAs(User::factory()->is_member1()->create());
+    }
+
+    public function test_index_returns_successful_response(): void
+    {
+        $this->get(route('subscriptions.index'))
+            ->assertStatus(200);
+    }
+
+    public function test_show_returns_successful_response(): void
+    {
+        $plan = \App\Models\Plan::factory()->create();
+
+        $response = $this->get(route('subscriptions.show', $plan));
 
         $response->assertStatus(200);
     }

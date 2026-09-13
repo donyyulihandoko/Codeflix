@@ -12,13 +12,13 @@ interface MovieRepository
     // dashboard controller
     public function getHeroMovie(): ?Movie ;
 
-    public function getTrendingMovies(int $limit): Collection;
+    public function getTrendingMovies(int $limit = 6): Collection;
 
-    public function getContinueWatching(int $limit): Collection;
+    public function getContinueWatching(int $limit = 6): Collection;
 
-    public function getTopRateMovies(int $limit): Collection;
+    public function getTopRateMovies(int $limit = 6): Collection;
 
-    public function getNewReleaseMovies(int $limit): Collection;
+    public function getNewReleaseMovies(int $limit = 6): Collection;
 
     // movie controller
 
@@ -28,7 +28,7 @@ interface MovieRepository
 
     public function watchMovie(Movie $movie): Movie;
 
-    public function getAverageRating(): ?int;
+    // public function getAverageRating(): ?float;
 
     public function getMoviesByCategory(Category $category, ?string $search = null): LengthAwarePaginator;
 }

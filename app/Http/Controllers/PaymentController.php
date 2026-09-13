@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
 use App\Models\Plan;
 use App\Services\PaymentService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Services\SubscriptionService;
 
 class PaymentController extends Controller
 {
-    public function __construct(private PaymentService $paymentService, private SubscriptionService $subscriptionService)
+    public function __construct(private PaymentService $paymentService)
     {
         //
     }

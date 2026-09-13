@@ -2,23 +2,25 @@
 
 namespace App\Services\Impl;
 
+use App\Services\PaymentCallbackService;
+use Override;
+use App\Repositories\SubscriptionRepository;
+use App\Repositories\PaymentRepository;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\User;
-use App\Repositories\PaymentRepository;
-use App\Repositories\SubscriptionRepository;
-use App\Services\MidtransService;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
-class MidtransServiceImpl implements MidtransService
+class PaymentCallbackServiceImpl implements PaymentCallbackService
 {
-
     public function __construct(private SubscriptionRepository $subscriptionRepository, private PaymentRepository $paymentRepository)
     {
         //
     }
 
+
+    #[Override]
     public function handleCallbackPayment(array $payload)
     {
         try {

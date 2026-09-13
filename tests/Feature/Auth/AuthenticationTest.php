@@ -5,10 +5,23 @@ namespace Tests\Feature\Auth;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Services\DeviceService;
+use Mockery\MockInterface;
+use App\Http\Middleware\CheckDeviceSessionMiddleware;
 
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // $this->mock(DeviceService::class, function (MockInterface $mock) {
+        //     $mock->shouldReceive('getValidDevice')->andReturn(true);
+        // });
+        $this->withoutMiddleware(CheckDeviceSessionMiddleware::class);
+    }
+
 
     public function test_login_screen_can_be_rendered(): void
     {

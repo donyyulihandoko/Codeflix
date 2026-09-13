@@ -20,7 +20,7 @@ class DeviceRepositoryImpl implements DeviceRepository
     {
         if (session('device_id') === $device->device_id) {
         session()->forget('device_id');
-         }
+        }
         return $device->delete();
     }
 
@@ -32,7 +32,10 @@ class DeviceRepositoryImpl implements DeviceRepository
 
     public function getAllUserDevices(User $user): Collection
     {
-        return $user->devices()->latest()->get();
+        return Device::query()
+            ->with(['user'])
+            ->where('user_id', $user->id)
+            ->latest()->get();
     }
 
     public function getValidDevice(User $user, string $id)

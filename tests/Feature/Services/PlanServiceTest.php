@@ -44,4 +44,12 @@ class PlanServiceTest extends TestCase
         $this->assertEquals($plan->title, $result->title);
     }
 
+    public function test_get_plan_by_name(): void
+    {
+        Plan::factory(5)->create();
+        $result = $this->planService->getPlanByName();
+        $this->assertNotNull($result);
+        $this->assertCount(5, $result);
+    }
+
 }
